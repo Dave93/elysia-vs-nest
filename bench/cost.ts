@@ -16,7 +16,6 @@ for (const cfg of R.methodology.order as string[]) {
   const runs = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed).map((r: any) => r.median);
   if (!runs.length) continue;
   const fair = FAIR?.configs?.[cfg]?.median;
-  const meds = runs.map((m: any, i: number) => (CASES[i] === "order" || R.runs.find((r: any) => r.median === m)?.case !== "order" ? m : m));
   const perCore = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed).map((r: any) => (r.case === "order" && fair ? fair.rps / (fair.meanCpu / 100) : r.median.rpsPerCore));
   const rpsPerCore = mean(perCore);
   const rssMB = Math.max(...runs.map((m: any) => m.peakRss));
