@@ -3,3 +3,18 @@
 START Sat Sep  5 15:25:36 +05 2026
 + bun bench/order-fair.ts
 A run 1 12944 rps, cpu 103%, other 448%
+A run 2 12250 rps, cpu 100%, other 489%
+A run 3 12287 rps, cpu 96%, other 379%
+B run 1 24448 rps, cpu 104%, other 390%
+B run 2 24059 rps, cpu 104%, other 404%
+B run 3 24251 rps, cpu 105%, other 376%
+C run 1 25763 rps, cpu 102%, other 435%
+C run 2 27633 rps, cpu 108%, other 409%
+C run 3 27327 rps, cpu 108%, other 403%
+D run 1 21228 rps, cpu 80%, other 307%
+D run 2 21442 rps, cpu 82%, other 318%
+D run 3 16634 rps, cpu 67%, other 272%
+A: 12287 rps, B: 24251 rps, C: 27327 rps, D: 21228 rps
++ echo 'ORDER-FAIR DONE'
+ORDER-FAIR DONE
++ bun bench/drift.ts

@@ -10,7 +10,10 @@ async function bomb(dur: string) {
   return { rps: r.rps.mean as number, p99: r.latency.percentiles["99"] / 1000, non2xx: (r.req1xx + r.req3xx + r.req4xx + r.req5xx + r.others) as number };
 }
 const out: any = { env: await collectEnv(), concurrency: 100, repeats: 3, duration: "30s", configs: {} };
-for (const cfg of CONFIGS.filter((x) => !x.sensitivity)) {
+const ONLY = process.env.CONFIGS?.split(",");
+const PREV = (await Bun.file("results/order-fair.json").exists()) ? JSON.parse(await Bun.file("results/order-fair.json").text()) : null;
+if (ONLY && PREV) out.configs = PREV.configs;
+for (const cfg of CONFIGS.filter((x) => !x.sensitivity && (!ONLY || ONLY.includes(x.id)))) {
   await resetOrders();
   const before = await ordersStats();
   const srv = await startServer(cfg);
@@ -25,7 +28,7 @@ for (const cfg of CONFIGS.filter((x) => !x.sensitivity)) {
       console.log(cfg.id, "run", i + 1, r.rps.toFixed(0), "rps, cpu", reps[i].meanCpu.toFixed(0) + "%, other", reps[i].otherCpu.toFixed(0) + "%");
     }
     const after = await ordersStats();
-    out.configs[cfg.id] = { before, after, repeats: reps, median: { rps: median(reps.map((r) => r.rps)), p99: median(reps.map((r) => r.p99)), meanRss: median(reps.map((r) => r.meanRss)), meanCpu: median(reps.map((r) => r.meanCpu)), non2xx: median(reps.map((r) => r.non2xx)) } };
+    out.configs[cfg.id] = { measuredAt: new Date().toISOString(), before, after, repeats: reps, median: { rps: median(reps.map((r) => r.rps)), p99: median(reps.map((r) => r.p99)), meanRss: median(reps.map((r) => r.meanRss)), meanCpu: median(reps.map((r) => r.meanCpu)), non2xx: median(reps.map((r) => r.non2xx)) } };
   } finally { await srv.stop(); }
 }
 await Bun.write("results/order-fair.json", JSON.stringify(out, null, 2));
