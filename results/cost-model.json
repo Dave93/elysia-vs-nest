@@ -1,0 +1,425 @@
+{
+  "assumptions": {
+    "ordersSource": "results/order-fair.json (fresh table)",
+    "loads": [
+      5000,
+      20000,
+      50000,
+      100000
+    ],
+    "headroom": 0.5,
+    "ramMultiplier": 1.5,
+    "cases": [
+      "me",
+      "user",
+      "list",
+      "order"
+    ],
+    "concurrency": 100,
+    "pricingFetchedAt": "2026-09-05",
+    "currency": "USD",
+    "eurUsd": null
+  },
+  "rows": [
+    {
+      "config": "A",
+      "load": 5000,
+      "rpsPerCore": 13085.572147410108,
+      "rssMB": 302.875,
+      "coresNeeded": 0.7642004405576714,
+      "ramGBNeeded": 0.44366455078125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 512MB",
+          "n": 1,
+          "monthly": 3.32
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "A",
+      "load": 20000,
+      "rpsPerCore": 13085.572147410108,
+      "rssMB": 302.875,
+      "coresNeeded": 3.056801762230686,
+      "ramGBNeeded": 1.774658203125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX33",
+          "n": 1,
+          "monthly": 9.99
+        },
+        "fly": {
+          "plan": "shared-cpu-4x 2GB",
+          "n": 1,
+          "monthly": 13.27
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 2,
+          "monthly": 24.82
+        }
+      }
+    },
+    {
+      "config": "A",
+      "load": 50000,
+      "rpsPerCore": 13085.572147410108,
+      "rssMB": 302.875,
+      "coresNeeded": 7.6420044055767145,
+      "ramGBNeeded": 3.54931640625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX43",
+          "n": 1,
+          "monthly": 18.49
+        },
+        "fly": {
+          "plan": "shared-cpu-4x 2GB",
+          "n": 2,
+          "monthly": 26.54
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 4,
+          "monthly": 49.64
+        }
+      }
+    },
+    {
+      "config": "A",
+      "load": 100000,
+      "rpsPerCore": 13085.572147410108,
+      "rssMB": 302.875,
+      "coresNeeded": 15.284008811153429,
+      "ramGBNeeded": 7.0986328125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX53",
+          "n": 1,
+          "monthly": 34.99
+        },
+        "fly": {
+          "plan": "shared-cpu-4x 2GB",
+          "n": 4,
+          "monthly": 53.08
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 8,
+          "monthly": 99.28
+        }
+      }
+    },
+    {
+      "config": "B",
+      "load": 5000,
+      "rpsPerCore": 21627.82560322428,
+      "rssMB": 288.484375,
+      "coresNeeded": 0.4623673310232906,
+      "ramGBNeeded": 0.42258453369140625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 512MB",
+          "n": 1,
+          "monthly": 3.32
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "B",
+      "load": 20000,
+      "rpsPerCore": 21627.82560322428,
+      "rssMB": 288.484375,
+      "coresNeeded": 1.8494693240931623,
+      "ramGBNeeded": 0.8451690673828125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 512MB",
+          "n": 2,
+          "monthly": 6.64
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "B",
+      "load": 50000,
+      "rpsPerCore": 21627.82560322428,
+      "rssMB": 288.484375,
+      "coresNeeded": 4.623673310232906,
+      "ramGBNeeded": 2.1129226684570312,
+      "priced": {
+        "hetzner": {
+          "plan": "CX43",
+          "n": 1,
+          "monthly": 18.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 512MB",
+          "n": 5,
+          "monthly": 16.599999999999998
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 3,
+          "monthly": 37.230000000000004
+        }
+      }
+    },
+    {
+      "config": "B",
+      "load": 100000,
+      "rpsPerCore": 21627.82560322428,
+      "rssMB": 288.484375,
+      "coresNeeded": 9.247346620465812,
+      "ramGBNeeded": 4.2258453369140625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX33",
+          "n": 3,
+          "monthly": 29.97
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 512MB",
+          "n": 10,
+          "monthly": 33.199999999999996
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 5,
+          "monthly": 62.05
+        }
+      }
+    },
+    {
+      "config": "C",
+      "load": 5000,
+      "rpsPerCore": 23867.61059503008,
+      "rssMB": 164.671875,
+      "coresNeeded": 0.418977842804352,
+      "ramGBNeeded": 0.24121856689453125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 1,
+          "monthly": 2.02
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "C",
+      "load": 20000,
+      "rpsPerCore": 23867.61059503008,
+      "rssMB": 164.671875,
+      "coresNeeded": 1.675911371217408,
+      "ramGBNeeded": 0.4824371337890625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 2,
+          "monthly": 4.04
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "C",
+      "load": 50000,
+      "rpsPerCore": 23867.61059503008,
+      "rssMB": 164.671875,
+      "coresNeeded": 4.18977842804352,
+      "ramGBNeeded": 1.2060928344726562,
+      "priced": {
+        "hetzner": {
+          "plan": "CX43",
+          "n": 1,
+          "monthly": 18.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 5,
+          "monthly": 10.1
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 3,
+          "monthly": 37.230000000000004
+        }
+      }
+    },
+    {
+      "config": "C",
+      "load": 100000,
+      "rpsPerCore": 23867.61059503008,
+      "rssMB": 164.671875,
+      "coresNeeded": 8.37955685608704,
+      "ramGBNeeded": 2.1709671020507812,
+      "priced": {
+        "hetzner": {
+          "plan": "CX33",
+          "n": 3,
+          "monthly": 29.97
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 9,
+          "monthly": 18.18
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 5,
+          "monthly": 62.05
+        }
+      }
+    },
+    {
+      "config": "D",
+      "load": 5000,
+      "rpsPerCore": 22983.307469742234,
+      "rssMB": 134.21875,
+      "coresNeeded": 0.43509838665149064,
+      "ramGBNeeded": 0.1966094970703125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 1,
+          "monthly": 2.02
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "D",
+      "load": 20000,
+      "rpsPerCore": 22983.307469742234,
+      "rssMB": 134.21875,
+      "coresNeeded": 1.7403935466059626,
+      "ramGBNeeded": 0.393218994140625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX23",
+          "n": 1,
+          "monthly": 6.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 2,
+          "monthly": 4.04
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 1,
+          "monthly": 12.41
+        }
+      }
+    },
+    {
+      "config": "D",
+      "load": 50000,
+      "rpsPerCore": 22983.307469742234,
+      "rssMB": 134.21875,
+      "coresNeeded": 4.350983866514906,
+      "ramGBNeeded": 0.9830474853515625,
+      "priced": {
+        "hetzner": {
+          "plan": "CX43",
+          "n": 1,
+          "monthly": 18.49
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 5,
+          "monthly": 10.1
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 3,
+          "monthly": 37.230000000000004
+        }
+      }
+    },
+    {
+      "config": "D",
+      "load": 100000,
+      "rpsPerCore": 22983.307469742234,
+      "rssMB": 134.21875,
+      "coresNeeded": 8.701967733029813,
+      "ramGBNeeded": 1.7694854736328125,
+      "priced": {
+        "hetzner": {
+          "plan": "CX33",
+          "n": 3,
+          "monthly": 29.97
+        },
+        "fly": {
+          "plan": "shared-cpu-1x 256MB",
+          "n": 9,
+          "monthly": 18.18
+        },
+        "aws": {
+          "plan": "t4g.small",
+          "n": 5,
+          "monthly": 62.05
+        }
+      }
+    }
+  ]
+}

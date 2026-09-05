@@ -83,3 +83,29 @@ The Nest 12 line is stable across the official packages; one (`@nestjs/throttler
 | Status codes | `status(201, body)` | `@HttpCode(201)` |
 | Build | `Bun.build`, optional `aot()` plugin | `nest build` with SWC builder + `.swcrc` |
 | Runtime portability | `@elysia/node` adapter exists (not benchmarked) | same `dist/` ran on Node and Bun unchanged |
+
+## Measured (bench/dx.ts, bench/boot.ts — 2026-09-05, Bun 1.4.2, Node 26.3.1)
+
+| Metric | Elysia 2 (Bun) | NestJS 12 (npm/Node) |
+|---|---|---|
+| fresh install from lockfile (node_modules deleted first; warm package cache) | 0.11 s (`bun install --frozen-lockfile`) | 2.30 s (`npm ci`) |
+| node_modules size | 55 MB | 208 MB |
+| packages in node_modules | 16 | 365 |
+| direct deps runtime / dev | 4 / 2 | 10 / 14 |
+| production build, median of 3 | 17 ms (`bun build`, one bundle); AOT 122 ms | 434 ms (`nest build`, SWC, unbundled) |
+| dist size | 772 KB; AOT 1332 KB | 40 KB (imports node_modules at runtime) |
+| `tsc --noEmit`, median of 3 | 0.65 s (TypeScript 5.9) | 0.73 s (TypeScript 6.0) |
+| watch-mode reload after a one-line edit, median of 5 | 64 ms (`bun --watch`) — runs 76, 78, 63, 64, 64 | 738 ms (`nest start --watch`) — runs 723, 738, 753, 741, 736 |
+| app source LOC / files | 100 / 6 | 205 / 10 (incl. 17-line TypeBox adapter used only by the sensitivity run) |
+| config files at app root | package.json tsconfig.json | .prettierrc .swcrc nest-cli.json oxlint.json package.json tsconfig.json vitest.config.e2e.ts vitest.config.ts |
+
+Startup, 10 cold starts per config (spawn → first 200 from `/health`; then the first `/users/4242` on that process):
+
+| Config | boot to healthy, median | first DB request, median |
+|---|---|---|
+| A · Nest 12 + Fastify / Node 26 | 405 ms | 17.5 ms |
+| B · Nest 12 + Fastify / Bun 1.4.2 | 186 ms | 13.6 ms |
+| C · Elysia 2 / Bun 1.4.2 | 94 ms | 17.8 ms |
+| D · Elysia 2 + AOT / Bun 1.4.2 | 44 ms | 15.6 ms |
+
+Idle RSS 1.5 s after healthy (from the benchmark run): A 196 MB, B 90 MB, C 39 MB, D 33 MB.

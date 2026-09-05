@@ -1,0 +1,50 @@
+{
+  "elysia": {
+    "installMs": 105.56616699999998,
+    "nodeModulesMB": 55.26953125,
+    "depCount": 16,
+    "directDeps": {
+      "runtime": 4,
+      "dev": 2
+    },
+    "buildMs": 17.42379199999999,
+    "distKB": 772,
+    "typecheckMs": 652.19,
+    "loc": 100,
+    "files": 6,
+    "configFiles": "package.json tsconfig.json",
+    "aotBuildMs": 122.05162500000006,
+    "aotDistKB": 1332,
+    "reloadMs": [
+      76,
+      78,
+      63,
+      64,
+      64
+    ],
+    "reloadMedianMs": 64
+  },
+  "nest": {
+    "installMs": 2298.124582999999,
+    "nodeModulesMB": 208.1796875,
+    "depCount": 365,
+    "directDeps": {
+      "runtime": 10,
+      "dev": 14
+    },
+    "buildMs": 433.75758400000086,
+    "distKB": 40,
+    "typecheckMs": 731.3028340000001,
+    "loc": 205,
+    "files": 10,
+    "configFiles": ".prettierrc .swcrc nest-cli.json oxlint.json package.json tsconfig.json vitest.config.e2e.ts vitest.config.ts",
+    "reloadMs": [
+      723,
+      738,
+      753,
+      741,
+      736
+    ],
+    "reloadMedianMs": 738
+  }
+}
