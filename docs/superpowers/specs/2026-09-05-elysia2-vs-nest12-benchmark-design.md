@@ -57,7 +57,7 @@ Response bodies must be byte-identical across configs except for volatile fields
 
 ## Measurement
 
-Harness forked from `~/development/axum_elysia/bench` (bombardier `--format json`, `ps -o rss=,%cpu=` sampler every 500 ms, medians of repeats, persist after every combination).
+Harness forked from an earlier local benchmark harness (bombardier `--format json`, `ps -o rss=,%cpu=` sampler every 500 ms, medians of repeats, persist after every combination).
 
 - Warm-up 5 s (discarded), then 3 repeats × 30 s, median per metric.
 - Concurrency 10, 100, 500.
