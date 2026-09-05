@@ -1,5 +1,6 @@
 // bench/report.ts — results/*.json → summary.md, results.html (local, inline SVG), facts.md. Run: bun bench/report.ts
 import { existsSync } from "node:fs";
+import { median } from "./lib";
 
 const read = async (p: string) => (existsSync(p) ? JSON.parse(await Bun.file(p).text()) : null);
 const R = await read("results/results.json");
@@ -29,7 +30,13 @@ const f2 = (x: number) => x.toFixed(2);
 const pct = (a: number, b: number) => (a ? ((b - a) / a) * 100 : 0);
 const sign = (x: number) => (x > 0 ? "+" : "") + f1(x) + "%";
 const verdict = (d: number) => (Math.abs(d) < FLOOR ? "noise" : Math.abs(d) < 10 ? "small" : "real");
-const run = (cfg: string, c: string, conc: number, src = R) => src.runs.find((r: any) => r.config === cfg && r.case === c && r.concurrency === conc && !r.failed)?.median;
+const run = (cfg: string, c: string, conc: number, src = R) => {
+  const o = src.runs.find((r: any) => r.config === cfg && r.case === c && r.concurrency === conc && !r.failed);
+  if (!o) return undefined;
+  const errPct = median(o.repeats.map((r: any) => (100 * r.non2xx) / Math.max(1, r.req2xx + r.non2xx)));
+  return { ...o.median, errPct };
+};
+const INVALID = 1; // % non-2xx above which a combination's rps is not throughput
 const src = (cfg: string, c: string, conc: number, field: string, file = "results.json") => `results/${file} → runs[config=${cfg}, case=${c}, concurrency=${conc}].median.${field}`;
 
 // ---------- markdown sections ----------
@@ -43,23 +50,23 @@ facts.push(`- Versions: Bun ${R.env.bun}; Node ${R.env.node}; Elysia ${R.env.ely
 facts.push(`- Method: ${R.methodology.repeats} repeats × ${R.methodology.duration} per combination, ${R.methodology.warmup} warm-up discarded, medians; concurrency ${CONCS.join("/")}; run order ${ORDER.join("→")}; bombardier on the same machine (source: results/results.json → methodology)`);
 
 if (NOISE) {
-  md.push(`## Noise floor\n\nConfig ${NOISE.config}, c=${NOISE.concurrency}, ${NOISE.repeats} back-to-back ${NOISE.duration} runs per route.\n\n| Route | rps per run | spread (max−min)/min | CV |\n|---|---|---|---|\n` + Object.entries<any>(NOISE.cases).map(([k, v]) => `| ${k} | ${v.rps.map(f0).join(", ")} | ${f1(v.spreadPct)}% | ${f1(v.cv * 100)}% |`).join("\n") + `\n\n**Significance floor used below: ±${f1(FLOOR)}%.** Deltas inside it are labelled \`noise\`; between the floor and 10% \`small\`; 10% and above \`real\`.\n`);
+  md.push(`## Noise floor\n\nConfig ${NOISE.config}, c=${NOISE.concurrency}, ${NOISE.repeats} back-to-back ${NOISE.duration} runs per route.\n\n| Route | rps per run | spread (max−min)/min | CV |\n|---|---|---|---|\n` + Object.entries<any>(NOISE.cases).map(([k, v]) => `| ${k} | ${v.rps.map(f0).join(", ")} | ${f1(v.spreadPct)}% | ${f1(v.cv * 100)}% |`).join("\n") + `\n\n**Significance floor used below: ±${f1(FLOOR)}%.** A combination with more than 1% non-2xx is marked invalid: its rps counts connection resets, not served requests. Deltas inside the floor are labelled \`noise\`; between the floor and 10% \`small\`; 10% and above \`real\`.\n`);
   facts.push(`\n## Noise floor\n- Measured run-to-run spread on config C at c=100: ${Object.entries<any>(NOISE.cases).map(([k, v]) => `${k} ${f1(v.spreadPct)}%`).join(", ")}; floor used = ±${f1(FLOOR)}% (source: results/noise.json → cases, floorPct)`);
 }
 
 md.push(`## Throughput, latency, resources — per route\n`);
 for (const c of CASES) {
-  md.push(`### ${CASE_DESC[c] ?? c}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
+  md.push(`### ${CASE_DESC[c] ?? c}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx (rate) | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
   for (const conc of CONCS) for (const cfg of ORDER) {
     const m = run(cfg, c, conc); if (!m) { md.push(`| ${cfg} | ${conc} | failed | | | | | | | | | |`); continue; }
-    md.push(`| ${cfg} | ${conc} | ${f0(m.rps)} | ${f2(m.p50)} | ${f2(m.p90)} | ${f2(m.p99)} | ${f0(m.non2xx)} | ${f0(m.meanRss)} | ${f0(m.peakRss)} | ${f0(m.meanCpu)} | ${f0(m.rpsPerCore)} | ${f0(m.rpsPerMB)} |`);
+    md.push(`| ${cfg} | ${conc} | ${m.errPct > INVALID ? "~~" + f0(m.rps) + "~~ invalid" : f0(m.rps)} | ${f2(m.p50)} | ${f2(m.p90)} | ${f2(m.p99)} | ${f0(m.non2xx)} (${f2(m.errPct)}%) | ${f0(m.meanRss)} | ${f0(m.peakRss)} | ${f0(m.meanCpu)} | ${f0(m.rpsPerCore)} | ${f0(m.rpsPerMB)} |`);
   }
   md.push("");
 }
 facts.push(`\n## Per-route medians (c=100)`);
-for (const c of CASES) for (const cfg of ORDER) { const m = run(cfg, c, 100); if (m) facts.push(`- ${cfg} ${c} c=100: ${f0(m.rps)} rps, p50 ${f2(m.p50)} ms, p99 ${f2(m.p99)} ms, mean RSS ${f0(m.meanRss)} MB, peak RSS ${f0(m.peakRss)} MB, mean CPU ${f0(m.meanCpu)} %, ${f0(m.rpsPerCore)} rps/core, non-2xx ${f0(m.non2xx)} (source: ${src(cfg, c, 100, "*")})`); }
+for (const c of CASES) for (const cfg of ORDER) { const m = run(cfg, c, 100); if (m) facts.push(`- ${cfg} ${c} c=100: ${f0(m.rps)} rps, p50 ${f2(m.p50)} ms, p99 ${f2(m.p99)} ms, mean RSS ${f0(m.meanRss)} MB, peak RSS ${f0(m.peakRss)} MB, mean CPU ${f0(m.meanCpu)} %, ${f0(m.rpsPerCore)} rps/core, non-2xx ${f0(m.non2xx)} = ${f2(m.errPct)}%${m.errPct > INVALID ? " [INVALID: connection errors, rps is not throughput]" : ""} (source: ${src(cfg, c, 100, "*")})`); }
 facts.push(`\n## Per-route medians (c=500)`);
-for (const c of CASES) for (const cfg of ORDER) { const m = run(cfg, c, 500); if (m) facts.push(`- ${cfg} ${c} c=500: ${f0(m.rps)} rps, p99 ${f2(m.p99)} ms, mean RSS ${f0(m.meanRss)} MB, mean CPU ${f0(m.meanCpu)} %, non-2xx ${f0(m.non2xx)} (source: ${src(cfg, c, 500, "*")})`); }
+for (const c of CASES) for (const cfg of ORDER) { const m = run(cfg, c, 500); if (m) facts.push(`- ${cfg} ${c} c=500: ${f0(m.rps)} rps, p99 ${f2(m.p99)} ms, mean RSS ${f0(m.meanRss)} MB, mean CPU ${f0(m.meanCpu)} %, non-2xx ${f0(m.non2xx)} = ${f2(m.errPct)}%${m.errPct > INVALID ? " [INVALID: connection errors, rps is not throughput]" : ""} (source: ${src(cfg, c, 500, "*")})`); }
 
 // ---------- layer deltas ----------
 const STEPS: [string, string, string][] = [["A", "B", "runtime: Node → Bun (+ native SQL driver)"], ["B", "C", "framework: Nest+Fastify → Elysia 2"], ["C", "D", "build: JIT → AOT"], ["A", "D", "total: A → D"]];
@@ -69,8 +76,9 @@ for (const conc of [100, 500]) {
   for (const c of CASES) for (const [a, b, what] of STEPS) {
     const ma = run(a, c, conc), mb = run(b, c, conc); if (!ma || !mb) continue;
     const dr = pct(ma.rps, mb.rps), drss = pct(ma.meanRss, mb.meanRss), dp = pct(ma.p99, mb.p99), dc = pct(ma.rpsPerCore, mb.rpsPerCore);
-    md.push(`| ${c} | ${a}→${b} ${what} | ${f0(ma.rps)} → ${f0(mb.rps)} | ${sign(dr)} | ${verdict(dr)} | ${f0(ma.meanRss)} → ${f0(mb.meanRss)} MB | ${sign(drss)} | ${f2(ma.p99)} → ${f2(mb.p99)} | ${sign(dp)} | ${f0(ma.rpsPerCore)} → ${f0(mb.rpsPerCore)} | ${sign(dc)} |`);
-    facts.push(`- ${c} ${a}→${b} (${what}): rps ${sign(dr)} [${verdict(dr)}], mean RSS ${sign(drss)}, p99 ${sign(dp)}, rps/core ${sign(dc)} (source: ${src(a, c, conc, "rps|meanRss|p99|rpsPerCore")} vs ${b})`);
+    const v = ma.errPct > INVALID || mb.errPct > INVALID ? "invalid (errors)" : verdict(dr);
+    md.push(`| ${c} | ${a}→${b} ${what} | ${f0(ma.rps)} → ${f0(mb.rps)} | ${sign(dr)} | ${v} | ${f0(ma.meanRss)} → ${f0(mb.meanRss)} MB | ${sign(drss)} | ${f2(ma.p99)} → ${f2(mb.p99)} | ${sign(dp)} | ${f0(ma.rpsPerCore)} → ${f0(mb.rpsPerCore)} | ${sign(dc)} |`);
+    facts.push(`- ${c} ${a}→${b} (${what}): rps ${sign(dr)} [${v}], mean RSS ${sign(drss)}, p99 ${sign(dp)}, rps/core ${sign(dc)} (source: ${src(a, c, conc, "rps|meanRss|p99|rpsPerCore")} vs ${b})`);
   }
   md.push("");
 }

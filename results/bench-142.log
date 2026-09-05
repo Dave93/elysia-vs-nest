@@ -1,0 +1,6 @@
+START Sat Sep  5 11:49:19 +05 2026
+
+=== B Nest 12 + Fastify / Bun 1.4 ===
+boot 260 ms, idle RSS 89.6 MB
+[1/63] B/health/c=10
+  run 1: 87679 rps, p99 0.24 ms, rss 161 MB, cpu 105%
