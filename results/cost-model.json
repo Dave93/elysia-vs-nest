@@ -44,6 +44,23 @@
           "n": 1,
           "monthly": 12.41
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
+        }
       }
     },
     {
@@ -68,6 +85,23 @@
           "plan": "t4g.small",
           "n": 2,
           "monthly": 24.82
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 2,
+          "monthly": 13.98
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 2,
+          "monthly": 44.44
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 2,
+          "monthly": 49.64
         }
       }
     },
@@ -94,6 +128,23 @@
           "n": 4,
           "monthly": 49.64
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 4,
+          "monthly": 27.96
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 4,
+          "monthly": 88.88
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 4,
+          "monthly": 99.28
+        }
       }
     },
     {
@@ -118,6 +169,23 @@
           "plan": "t4g.small",
           "n": 8,
           "monthly": 99.28
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 8,
+          "monthly": 55.92
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 8,
+          "monthly": 177.76
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 8,
+          "monthly": 198.56
         }
       }
     },
@@ -144,6 +212,23 @@
           "n": 1,
           "monthly": 12.41
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
+        }
       }
     },
     {
@@ -168,6 +253,23 @@
           "plan": "t4g.small",
           "n": 1,
           "monthly": 12.41
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
         }
       }
     },
@@ -194,6 +296,23 @@
           "n": 3,
           "monthly": 37.230000000000004
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 3,
+          "monthly": 20.97
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 3,
+          "monthly": 66.66
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 3,
+          "monthly": 74.46000000000001
+        }
       }
     },
     {
@@ -218,6 +337,23 @@
           "plan": "t4g.small",
           "n": 5,
           "monthly": 62.05
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 5,
+          "monthly": 34.95
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 5,
+          "monthly": 111.1
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 5,
+          "monthly": 124.1
         }
       }
     },
@@ -244,6 +380,23 @@
           "n": 1,
           "monthly": 12.41
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
+        }
       }
     },
     {
@@ -268,6 +421,23 @@
           "plan": "t4g.small",
           "n": 1,
           "monthly": 12.41
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
         }
       }
     },
@@ -294,6 +464,23 @@
           "n": 3,
           "monthly": 37.230000000000004
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 3,
+          "monthly": 20.97
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 3,
+          "monthly": 66.66
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 3,
+          "monthly": 74.46000000000001
+        }
       }
     },
     {
@@ -318,6 +505,23 @@
           "plan": "t4g.small",
           "n": 5,
           "monthly": 62.05
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 5,
+          "monthly": 34.95
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 5,
+          "monthly": 111.1
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 5,
+          "monthly": 124.1
         }
       }
     },
@@ -344,6 +548,23 @@
           "n": 1,
           "monthly": 12.41
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
+        }
       }
     },
     {
@@ -368,6 +589,23 @@
           "plan": "t4g.small",
           "n": 1,
           "monthly": 12.41
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 1,
+          "monthly": 6.99
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 1,
+          "monthly": 22.22
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 1,
+          "monthly": 24.82
         }
       }
     },
@@ -394,6 +632,23 @@
           "n": 3,
           "monthly": 37.230000000000004
         }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 3,
+          "monthly": 20.97
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 3,
+          "monthly": 66.66
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 3,
+          "monthly": 74.46000000000001
+        }
       }
     },
     {
@@ -418,6 +673,23 @@
           "plan": "t4g.small",
           "n": 5,
           "monthly": 62.05
+        }
+      },
+      "ref": {
+        "hetzner": {
+          "plan": "CAX11",
+          "n": 5,
+          "monthly": 34.95
+        },
+        "fly": {
+          "plan": "shared-cpu-2x 4GB",
+          "n": 5,
+          "monthly": 111.1
+        },
+        "aws": {
+          "plan": "t4g.medium",
+          "n": 5,
+          "monthly": 124.1
         }
       }
     }

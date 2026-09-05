@@ -11,6 +11,7 @@ const CASES = ["me", "user", "list", "order"];
 const CONC = 100;
 
 interface Plan { name: string; vcpu: number; ramGB: number; monthly: number }
+const REF: Record<string, string> = { hetzner: "CAX11", fly: "shared-cpu-2x 4GB", aws: "t4g.medium" };
 const rows: any[] = [];
 for (const cfg of R.methodology.order as string[]) {
   const runs = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed).map((r: any) => r.median);
@@ -30,7 +31,13 @@ for (const cfg of R.methodology.order as string[]) {
         .sort((a, b) => a.monthly - b.monthly)[0];
       priced[prov] = best;
     }
-    rows.push({ config: cfg, load, rpsPerCore, rssMB, coresNeeded: cores, ramGBNeeded: ramGB, priced });
+    const ref: Record<string, { plan: string; n: number; monthly: number }> = {};
+    for (const [prov, spec] of Object.entries<any>(P.providers)) {
+      const p = (spec.plans as Plan[]).find((x) => x.name === REF[prov]); if (!p) continue;
+      const n = Math.max(Math.ceil(cores / p.vcpu), Math.ceil(ramGB / p.ramGB), 1);
+      ref[prov] = { plan: p.name, n, monthly: n * p.monthly };
+    }
+    rows.push({ config: cfg, load, rpsPerCore, rssMB, coresNeeded: cores, ramGBNeeded: ramGB, priced, ref });
   }
 }
 
@@ -44,6 +51,8 @@ for (const load of LOADS) {
   for (const r of rows.filter((r) => r.load === load)) {
     md += `| ${r.config} | ${r.rpsPerCore.toFixed(0)} | ${r.rssMB.toFixed(0)} | ${r.coresNeeded.toFixed(2)} | ${provs.map((p) => `${r.priced[p].plan} × ${r.priced[p].n} = $${r.priced[p].monthly.toFixed(0)}/mo`).join(" | ")} |\n`;
   }
+  md += `\nSame load on one fixed box class per provider (2 vCPU / 4 GB: ${Object.values(REF).join(", ")}):\n\n| Config | ${provs.map((p) => `${REF[p]} × n = $/mo`).join(" | ")} |\n|---|${provs.map(() => "---").join("|")}|\n`;
+  for (const r of rows.filter((r) => r.load === load)) md += `| ${r.config} | ${provs.map((p) => (r.ref[p] ? `× ${r.ref[p].n} = $${r.ref[p].monthly.toFixed(0)}` : "—")).join(" | ")} |\n`;
   md += "\n";
 }
 await Bun.write("results/cost-model.md", md);

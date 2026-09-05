@@ -183,7 +183,7 @@ await Bun.write("results/facts.md", `# Facts with provenance\n\nThe only permitt
 const SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"], SERIES_DARK = ["#3987e5", "#d95926", "#199e70", "#c98500"];
 function barChart(title: string, unit: string, groups: { label: string; values: number[] }[], series: string[]): string {
   const W = 760, H = 300, padL = 60, padR = 16, padT = 36, padB = 44;
-  const max = Math.max(...groups.flatMap((g) => g.values)) || 1;
+  const max = Math.max(...groups.flatMap((g) => g.values.filter((v) => Number.isFinite(v)))) || 1;
   const gw = (W - padL - padR) / groups.length, bw = Math.min(28, (gw - 16) / series.length);
   const y = (v: number) => padT + (H - padT - padB) * (1 - v / max);
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}"><title>${title}</title>`;
@@ -191,9 +191,11 @@ function barChart(title: string, unit: string, groups: { label: string; values: 
   for (let i = 0; i <= 4; i++) { const v = (max * i) / 4; s += `<line x1="${padL}" x2="${W - padR}" y1="${y(v)}" y2="${y(v)}" class="grid"/><text x="${padL - 6}" y="${y(v) + 4}" text-anchor="end" class="ax">${f0(v)}</text>`; }
   groups.forEach((g, gi) => {
     const x0 = padL + gi * gw + (gw - bw * series.length - 2 * (series.length - 1)) / 2;
-    const top = Math.max(...g.values);
+    const top = Math.max(...g.values.filter((v) => Number.isFinite(v)));
     g.values.forEach((v, si) => {
-      const x = x0 + si * (bw + 2), h = y(0) - y(v);
+      const x = x0 + si * (bw + 2);
+      if (!Number.isFinite(v)) { s += `<text x="${x + bw / 2}" y="${y(0) - 6}" text-anchor="middle" class="ax">n/a</text>`; return; }
+      const h = y(0) - y(v);
       s += `<rect x="${x}" y="${y(v)}" width="${bw}" height="${h}" rx="4" ry="4" fill="var(--s${si + 1})"><title>${series[si]} · ${g.label}: ${f0(v)} ${unit}</title></rect>`;
       s += `<rect x="${x}" y="${y(0) - 4}" width="${bw}" height="4" fill="var(--s${si + 1})"/>`;
       if (v === top) s += `<text x="${x + bw / 2}" y="${y(v) - 5}" text-anchor="middle" class="lab">${f0(v)}</text>`;
@@ -205,9 +207,13 @@ function barChart(title: string, unit: string, groups: { label: string; values: 
 }
 const legend = `<div class="legend">${ORDER.map((c, i) => `<span><i style="background:var(--s${i + 1})"></i>${LABEL[c]}</span>`).join("")}</div>`;
 const charts: string[] = [];
-for (const c of CASES) charts.push(barChart(`${CASE_DESC[c] ?? c} — requests/s`, "req/s", CONCS.map((conc) => ({ label: `c=${conc}`, values: ORDER.map((cfg) => run(cfg, c, conc)?.rps ?? 0) })), ORDER.map((c) => LABEL[c])));
-charts.push(barChart("Mean RSS under load, c=100 — MB", "MB", CASES.map((c) => ({ label: c, values: ORDER.map((cfg) => run(cfg, c, 100)?.meanRss ?? 0) })), ORDER.map((c) => LABEL[c])));
-charts.push(barChart("Requests per core, c=100", "req/s per core", CASES.filter((c) => c !== "cpu").map((c) => ({ label: c, values: ORDER.map((cfg) => run(cfg, c, 100)?.rpsPerCore ?? 0) })), ORDER.map((c) => LABEL[c])));
+const valid = (m: any) => (m && m.errPct <= INVALID ? m.rps : NaN);
+for (const c of CASES) {
+  if (c === "order" && FAIR) charts.push(barChart(`${CASE_DESC[c]} — requests/s, fresh table (VACUUM FULL before each config)`, "req/s", [{ label: "c=100, fresh table", values: ORDER.map((cfg) => FAIR.configs[cfg]?.median.rps ?? NaN) }], ORDER.map((c) => LABEL[c])));
+  else charts.push(barChart(`${CASE_DESC[c] ?? c} — requests/s${c === "cpu" ? " (n/a = >1% connection errors)" : ""}`, "req/s", CONCS.map((conc) => ({ label: `c=${conc}`, values: ORDER.map((cfg) => valid(run(cfg, c, conc))) })), ORDER.map((c) => LABEL[c])));
+}
+charts.push(barChart("Mean RSS under load, c=100 — MB", "MB", CASES.map((c) => ({ label: c, values: ORDER.map((cfg) => runF(cfg, c, 100)?.meanRss ?? NaN) })), ORDER.map((c) => LABEL[c])));
+charts.push(barChart("Requests per core, c=100 (orders from the fresh-table pass)", "req/s per core", CASES.filter((c) => c !== "cpu").map((c) => ({ label: c, values: ORDER.map((cfg) => runF(cfg, c, 100)?.rpsPerCore ?? NaN) })), ORDER.map((c) => LABEL[c])));
 charts.push(barChart("Idle RSS — MB", "MB", [{ label: "idle", values: ORDER.map((cfg) => R.idleRss[cfg]) }], ORDER.map((c) => LABEL[c])));
 if (BOOT) charts.push(barChart(`Boot to healthy, median of ${BOOT.repeats} — ms`, "ms", [{ label: "boot", values: ORDER.map((cfg) => BOOT[cfg]?.bootMedian ?? 0) }], ORDER.map((c) => LABEL[c])));
 
