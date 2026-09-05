@@ -1,1 +1,10 @@
 START Sat Sep  5 12:31:40 +05 2026
+  [idle-gate] start: foreign CPU 710% ≥ 500%, waiting 30 s
+
+=== B Nest 12 + Fastify / Bun 1.4 ===
+boot 307 ms, idle RSS 90.9 MB
+[1/63] B/health/c=10
+  run 1: 82642 rps, p99 0.30 ms, rss 160 MB, cpu 104%, other 374%
+  run 2: 86911 rps, p99 0.26 ms, rss 164 MB, cpu 105%, other 287%
+  run 3: 82773 rps, p99 0.32 ms, rss 165 MB, cpu 105%, other 389%
+[2/63] B/health/c=100
