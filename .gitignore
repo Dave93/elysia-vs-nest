@@ -3,3 +3,5 @@ apps/*/dist/
 apps/*/dist-aot/
 .DS_Store
 results/bench.log
+results/*.log
+*.tsbuildinfo
