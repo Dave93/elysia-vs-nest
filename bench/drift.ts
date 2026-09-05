@@ -4,7 +4,7 @@ import { CONFIGS, startServer, startSampler, startSysSampler, median, mean, coll
 import { cases, bombardierArgs } from "./cases";
 const R = JSON.parse(await Bun.file("results/results-bun141canary.json").text());
 const cfg = CONFIGS.find((c) => c.id === "A")!;
-const CS = (await cases()).filter((c) => ["health", "user"].includes(c.name));
+const CS = (await cases()).filter((c) => ["health", "user", "order"].includes(c.name));
 async function bomb(args: string[], dur: string) {
   const p = Bun.spawn(["bombardier", "-c", "100", "-d", dur, "-l", "--print", "r", "--format", "json", ...args], { stdout: "pipe", stderr: "ignore" });
   const r = JSON.parse(await new Response(p.stdout).text()).result; await p.exited; return r.rps.mean as number;
