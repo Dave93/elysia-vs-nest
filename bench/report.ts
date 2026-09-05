@@ -9,6 +9,8 @@ const NOISE = await read("results/noise.json");
 const BOOT = await read("results/boot.json");
 const DX = await read("results/dx.json");
 const SENS = await read("results/sensitivity.json");
+const FAIR = await read("results/order-fair.json");
+const DRIFT = await read("results/drift.json");
 const COST = existsSync("results/cost-model.md") ? await Bun.file("results/cost-model.md").text() : "";
 
 const LABEL: Record<string, string> = {
@@ -36,7 +38,15 @@ const run = (cfg: string, c: string, conc: number, src = R) => {
   const errPct = median(o.repeats.map((r: any) => (100 * r.non2xx) / Math.max(1, r.req2xx + r.non2xx)));
   return { ...o.median, errPct };
 };
-const INVALID = 1; // % non-2xx above which a combination's rps is not throughput
+const INVALID = 1;
+// /orders at c=100 comes from the fresh-table pass when available (main-run numbers depend on run order).
+const runF = (cfg: string, c: string, conc: number, src = R) => {
+  if (c === "order" && conc === 100 && FAIR?.configs?.[cfg] && src === R) {
+    const m = FAIR.configs[cfg].median;
+    return { ...m, p50: NaN, p90: NaN, peakRss: NaN, rpsPerCore: m.meanCpu ? m.rps / (m.meanCpu / 100) : 0, rpsPerMB: m.meanRss ? m.rps / m.meanRss : 0, errPct: 0, fair: true };
+  }
+  return run(cfg, c, conc, src);
+}; // % non-2xx above which a combination's rps is not throughput
 const src = (cfg: string, c: string, conc: number, field: string, file = "results.json") => `results/${file} → runs[config=${cfg}, case=${c}, concurrency=${conc}].median.${field}`;
 
 // ---------- markdown sections ----------
@@ -56,7 +66,7 @@ if (NOISE) {
 
 md.push(`## Throughput, latency, resources — per route\n`);
 for (const c of CASES) {
-  md.push(`### ${CASE_DESC[c] ?? c}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx (rate) | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
+  md.push(`### ${CASE_DESC[c] ?? c}${c === "order" && FAIR ? " — main-run rows depend on run order (table bloat); see the fresh-table section" : ""}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx (rate) | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
   for (const conc of CONCS) for (const cfg of ORDER) {
     const m = run(cfg, c, conc); if (!m) { md.push(`| ${cfg} | ${conc} | failed | | | | | | | | | |`); continue; }
     md.push(`| ${cfg} | ${conc} | ${m.errPct > INVALID ? "~~" + f0(m.rps) + "~~ invalid" : f0(m.rps)} | ${f2(m.p50)} | ${f2(m.p90)} | ${f2(m.p99)} | ${f0(m.non2xx)} (${f2(m.errPct)}%) | ${f0(m.meanRss)} | ${f0(m.peakRss)} | ${f0(m.meanCpu)} | ${f0(m.rpsPerCore)} | ${f0(m.rpsPerMB)} |`);
@@ -74,11 +84,34 @@ for (const conc of [100, 500]) {
   md.push(`## Layer attribution at c=${conc}\n\nEach step changes one layer. \`noise\` = inside ±${f1(FLOOR)}%.\n\n| Route | Step | rps | Δ rps | verdict | mean RSS | Δ RSS | p99 | Δ p99 | rps/core | Δ rps/core |\n|---|---|---|---|---|---|---|---|---|---|---|`);
   facts.push(`\n## Layer attribution (c=${conc}, floor ±${f1(FLOOR)}%)`);
   for (const c of CASES) for (const [a, b, what] of STEPS) {
-    const ma = run(a, c, conc), mb = run(b, c, conc); if (!ma || !mb) continue;
+    const ma = runF(a, c, conc), mb = runF(b, c, conc); if (!ma || !mb) continue;
     const dr = pct(ma.rps, mb.rps), drss = pct(ma.meanRss, mb.meanRss), dp = pct(ma.p99, mb.p99), dc = pct(ma.rpsPerCore, mb.rpsPerCore);
     const v = ma.errPct > INVALID || mb.errPct > INVALID ? "invalid (errors)" : verdict(dr);
-    md.push(`| ${c} | ${a}→${b} ${what} | ${f0(ma.rps)} → ${f0(mb.rps)} | ${sign(dr)} | ${v} | ${f0(ma.meanRss)} → ${f0(mb.meanRss)} MB | ${sign(drss)} | ${f2(ma.p99)} → ${f2(mb.p99)} | ${sign(dp)} | ${f0(ma.rpsPerCore)} → ${f0(mb.rpsPerCore)} | ${sign(dc)} |`);
+    md.push(`| ${c}${ma.fair ? " (fresh table)" : ""} | ${a}→${b} ${what} | ${f0(ma.rps)} → ${f0(mb.rps)} | ${sign(dr)} | ${v} | ${f0(ma.meanRss)} → ${f0(mb.meanRss)} MB | ${sign(drss)} | ${f2(ma.p99)} → ${f2(mb.p99)} | ${sign(dp)} | ${f0(ma.rpsPerCore)} → ${f0(mb.rpsPerCore)} | ${sign(dc)} |`);
     facts.push(`- ${c} ${a}→${b} (${what}): rps ${sign(dr)} [${v}], mean RSS ${sign(drss)}, p99 ${sign(dp)}, rps/core ${sign(dc)} (source: ${src(a, c, conc, "rps|meanRss|p99|rpsPerCore")} vs ${b})`);
+  }
+  md.push("");
+}
+
+// ---------- /orders with a fresh table ----------
+if (FAIR) {
+  md.push(`## POST /orders with a freshly vacuumed table, c=100\n\nEach config got \`VACUUM (FULL, ANALYZE) orders\` and a 200,000-row table before its 3 × 30 s. This replaces the main-run \`/orders\` numbers, which depended on which config ran first.\n\n| Config | rps | p99 ms | mean RSS MB | mean CPU % | rps/core | dead tuples before → after | non-2xx |\n|---|---|---|---|---|---|---|---|`);
+  facts.push(`\n## /orders, fresh table, c=100`);
+  for (const cfg of ORDER) {
+    const v = FAIR.configs[cfg]; if (!v) continue; const m = v.median;
+    md.push(`| ${cfg} | ${f0(m.rps)} | ${f2(m.p99)} | ${f0(m.meanRss)} | ${f0(m.meanCpu)} | ${f0(m.meanCpu ? m.rps / (m.meanCpu / 100) : 0)} | ${f0(v.before.dead)} → ${f0(v.after.dead)} | ${f0(m.non2xx)} |`);
+    facts.push(`- ${cfg} /orders c=100 fresh table: ${f0(m.rps)} rps, p99 ${f2(m.p99)} ms, mean RSS ${f0(m.meanRss)} MB, mean CPU ${f0(m.meanCpu)} % (source: results/order-fair.json → configs.${cfg}.median)`);
+  }
+  md.push("");
+}
+
+// ---------- machine drift ----------
+if (DRIFT) {
+  md.push(`## Machine drift check\n\nConfig A (Node, untouched by the Bun upgrade) re-measured after the afternoon pass, c=100, 3 × 30 s, against its morning medians.\n\n| Route | morning rps | afternoon rps | Δ | verdict | foreign CPU during afternoon run |\n|---|---|---|---|---|---|`);
+  facts.push(`\n## Machine drift (A re-measured)`);
+  for (const [k, v] of Object.entries<any>(DRIFT.cases)) {
+    md.push(`| ${k} | ${f0(v.morningRps)} | ${f0(v.median)} | ${sign(v.deltaPct)} | ${verdict(v.deltaPct)} | ${f0(v.otherCpu)}% |`);
+    facts.push(`- A ${k} c=100: morning ${f0(v.morningRps)} rps, afternoon ${f0(v.median)} rps, ${sign(v.deltaPct)} [${verdict(v.deltaPct)}] (source: results/drift.json → cases.${k})`);
   }
   md.push("");
 }

@@ -3,6 +3,7 @@ import { mean } from "./lib";
 
 const R = JSON.parse(await Bun.file("results/results.json").text());
 const P = JSON.parse(await Bun.file("results/pricing-snapshot.json").text());
+const FAIR = (await Bun.file("results/order-fair.json").exists()) ? JSON.parse(await Bun.file("results/order-fair.json").text()) : null;
 const LOADS = [1000, 5000, 20000];
 const HEADROOM = 0.5;           // run cores at 50 %
 const RAM_MULT = 1.5;           // provision 1.5× peak RSS per process
@@ -12,10 +13,13 @@ const CONC = 100;
 interface Plan { name: string; vcpu: number; ramGB: number; monthly: number }
 const rows: any[] = [];
 for (const cfg of R.methodology.order as string[]) {
-  const runs = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed);
+  const runs = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed).map((r: any) => r.median);
   if (!runs.length) continue;
-  const rpsPerCore = mean(runs.map((r: any) => r.median.rpsPerCore));
-  const rssMB = Math.max(...runs.map((r: any) => r.median.peakRss));
+  const fair = FAIR?.configs?.[cfg]?.median;
+  const meds = runs.map((m: any, i: number) => (CASES[i] === "order" || R.runs.find((r: any) => r.median === m)?.case !== "order" ? m : m));
+  const perCore = R.runs.filter((r: any) => r.config === cfg && r.concurrency === CONC && CASES.includes(r.case) && !r.failed).map((r: any) => (r.case === "order" && fair ? fair.rps / (fair.meanCpu / 100) : r.median.rpsPerCore));
+  const rpsPerCore = mean(perCore);
+  const rssMB = Math.max(...runs.map((m: any) => m.peakRss));
   for (const load of LOADS) {
     const cores = load / (rpsPerCore * HEADROOM);
     const ramGB = (Math.ceil(cores) * rssMB * RAM_MULT) / 1024;
@@ -31,7 +35,7 @@ for (const cfg of R.methodology.order as string[]) {
   }
 }
 
-const out = { assumptions: { loads: LOADS, headroom: HEADROOM, ramMultiplier: RAM_MULT, cases: CASES, concurrency: CONC, pricingFetchedAt: P.fetchedAt, currency: P.currency, eurUsd: P.eurUsd ?? null }, rows };
+const out = { assumptions: { ordersSource: FAIR ? "results/order-fair.json (fresh table)" : "results.json", loads: LOADS, headroom: HEADROOM, ramMultiplier: RAM_MULT, cases: CASES, concurrency: CONC, pricingFetchedAt: P.fetchedAt, currency: P.currency, eurUsd: P.eurUsd ?? null }, rows };
 await Bun.write("results/cost-model.json", JSON.stringify(out, null, 2));
 
 const provs = Object.keys(P.providers);

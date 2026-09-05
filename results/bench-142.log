@@ -188,3 +188,88 @@ boot 46 ms, idle RSS 33.4 MB
 [43/63] D/health/c=10
   run 1: 124655 rps, p99 0.15 ms, rss 55 MB, cpu 110%, other 222%
   run 2: 125781 rps, p99 0.15 ms, rss 55 MB, cpu 110%, other 204%
+  run 3: 125699 rps, p99 0.15 ms, rss 58 MB, cpu 110%, other 296%
+[44/63] D/health/c=100
+  run 1: 138472 rps, p99 1.35 ms, rss 58 MB, cpu 102%, other 170%
+  run 2: 138283 rps, p99 1.35 ms, rss 59 MB, cpu 103%, other 171%
+  run 3: 137292 rps, p99 1.38 ms, rss 59 MB, cpu 102%, other 192%
+[45/63] D/health/c=500
+  run 1: 137027 rps, p99 4.56 ms, rss 59 MB, cpu 102%, other 270%
+  run 2: 133325 rps, p99 5.09 ms, rss 59 MB, cpu 101%, other 246%
+  run 3: 129639 rps, p99 4.90 ms, rss 59 MB, cpu 102%, other 314%
+[46/63] D/echo/c=10
+  run 1: 103214 rps, p99 0.20 ms, rss 66 MB, cpu 107%, other 261%
+  run 2: 106338 rps, p99 0.19 ms, rss 66 MB, cpu 108%, other 311%
+  run 3: 109354 rps, p99 0.18 ms, rss 66 MB, cpu 108%, other 177%
+[47/63] D/echo/c=100
+  run 1: 113639 rps, p99 1.46 ms, rss 66 MB, cpu 103%, other 290%
+  run 2: 111352 rps, p99 1.60 ms, rss 66 MB, cpu 102%, other 256%
+  run 3: 113655 rps, p99 1.52 ms, rss 66 MB, cpu 103%, other 304%
+[48/63] D/echo/c=500
+  run 1: 106242 rps, p99 5.90 ms, rss 66 MB, cpu 102%, other 341%
+  run 2: 105284 rps, p99 5.95 ms, rss 66 MB, cpu 102%, other 342%
+  run 3: 106889 rps, p99 5.58 ms, rss 66 MB, cpu 102%, other 282%
+[49/63] D/me/c=10
+  run 1: 23732 rps, p99 1.13 ms, rss 97 MB, cpu 133%, other 375%
+  run 2: 24196 rps, p99 1.10 ms, rss 97 MB, cpu 133%, other 288%
+  run 3: 24039 rps, p99 1.10 ms, rss 97 MB, cpu 133%, other 290%
+[50/63] D/me/c=100
+  run 1: 25226 rps, p99 6.78 ms, rss 104 MB, cpu 142%, other 301%
+  run 2: 24870 rps, p99 7.05 ms, rss 112 MB, cpu 140%, other 346%
+  run 3: 25121 rps, p99 6.84 ms, rss 112 MB, cpu 141%, other 384%
+[51/63] D/me/c=500
+  run 1: 23770 rps, p99 26.02 ms, rss 116 MB, cpu 148%, other 376%  [!] non-2xx 4
+  run 2: 23945 rps, p99 25.51 ms, rss 116 MB, cpu 148%, other 416%
+  run 3: 23573 rps, p99 27.16 ms, rss 117 MB, cpu 147%, other 393%
+[52/63] D/user/c=10
+  run 1: 30393 rps, p99 0.91 ms, rss 119 MB, cpu 109%, other 352%
+  run 2: 30454 rps, p99 0.90 ms, rss 119 MB, cpu 109%, other 321%
+  run 3: 30752 rps, p99 0.89 ms, rss 119 MB, cpu 109%, other 297%
+[53/63] D/user/c=100
+  run 1: 32385 rps, p99 5.01 ms, rss 119 MB, cpu 114%, other 321%
+  run 2: 32424 rps, p99 5.04 ms, rss 119 MB, cpu 115%, other 334%
+  run 3: 32390 rps, p99 4.97 ms, rss 119 MB, cpu 114%, other 322%
+[54/63] D/user/c=500
+  run 1: 31050 rps, p99 20.94 ms, rss 120 MB, cpu 122%, other 284%  [!] non-2xx 7
+  run 2: 30839 rps, p99 22.49 ms, rss 121 MB, cpu 121%, other 280%
+  run 3: 30799 rps, p99 22.44 ms, rss 121 MB, cpu 121%, other 346%
+[55/63] D/list/c=10
+  run 1: 21402 rps, p99 1.36 ms, rss 124 MB, cpu 105%, other 447%
+  run 2: 21631 rps, p99 1.30 ms, rss 124 MB, cpu 105%, other 427%
+  run 3: 18936 rps, p99 2.22 ms, rss 124 MB, cpu 97%, other 417%
+[56/63] D/list/c=100
+  run 1: 23784 rps, p99 7.46 ms, rss 125 MB, cpu 123%, other 392%
+  run 2: 24339 rps, p99 7.07 ms, rss 125 MB, cpu 123%, other 384%
+  run 3: 24094 rps, p99 7.10 ms, rss 126 MB, cpu 122%, other 374%
+[57/63] D/list/c=500
+  run 1: 23398 rps, p99 29.55 ms, rss 127 MB, cpu 131%, other 356%
+  run 2: 23172 rps, p99 30.03 ms, rss 127 MB, cpu 131%, other 399%
+  run 3: 23249 rps, p99 30.33 ms, rss 127 MB, cpu 132%, other 410%
+[58/63] D/order/c=10
+  run 1: 16055 rps, p99 2.92 ms, rss 134 MB, cpu 76%, other 419%
+  run 2: 11877 rps, p99 3.23 ms, rss 134 MB, cpu 60%, other 395%
+  run 3: 10728 rps, p99 3.91 ms, rss 134 MB, cpu 56%, other 372%
+[59/63] D/order/c=100
+  run 1: 12063 rps, p99 20.14 ms, rss 134 MB, cpu 63%, other 365%
+  run 2: 15427 rps, p99 16.14 ms, rss 134 MB, cpu 73%, other 302%
+  run 3: 15618 rps, p99 16.81 ms, rss 134 MB, cpu 75%, other 464%
+  [contended] foreign CPU 464% — redoing run 3 (retry 1/200)
+  run 3: 22490 rps, p99 13.18 ms, rss 134 MB, cpu 93%, other 441%
+[60/63] D/order/c=500
+  run 1: 14401 rps, p99 143.35 ms, rss 135 MB, cpu 70%, other 288%  [!] non-2xx 509
+  run 2: 17108 rps, p99 146.65 ms, rss 136 MB, cpu 79%, other 290%  [!] non-2xx 500
+  run 3: 19282 rps, p99 63.66 ms, rss 141 MB, cpu 86%, other 318%  [!] non-2xx 704
+[61/63] D/cpu/c=10
+  run 1: 206 rps, p99 93.24 ms, rss 142 MB, cpu 119%, other 231%
+  run 2: 201 rps, p99 98.09 ms, rss 142 MB, cpu 119%, other 275%
+  run 3: 201 rps, p99 96.71 ms, rss 142 MB, cpu 119%, other 222%
+[62/63] D/cpu/c=100
+  run 1: 195 rps, p99 655.91 ms, rss 142 MB, cpu 119%, other 272%
+  run 2: 199 rps, p99 582.92 ms, rss 142 MB, cpu 119%, other 267%
+  run 3: 195 rps, p99 660.43 ms, rss 142 MB, cpu 119%, other 236%
+[63/63] D/cpu/c=500
+  run 1: 36820 rps, p99 48.29 ms, rss 142 MB, cpu 94%, other 163%  [!] non-2xx 1077358
+  run 2: 40624 rps, p99 51.72 ms, rss 142 MB, cpu 94%, other 163%  [!] non-2xx 1166417
+  run 3: 37891 rps, p99 53.11 ms, rss 142 MB, cpu 92%, other 160%  [!] non-2xx 1101663
+done: 63 combinations → results/results-bun142.json
+END Sat Sep  5 15:25:22 +05 2026 exit=0

@@ -1,0 +1,5 @@
+++ date
++ echo 'START Sat Sep  5 15:25:36 +05 2026'
+START Sat Sep  5 15:25:36 +05 2026
++ bun bench/order-fair.ts
+A run 1 12944 rps, cpu 103%, other 448%
