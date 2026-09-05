@@ -12,7 +12,7 @@ const REPEATS = QUICK ? 1 : 3;
 const CONCURRENCIES = process.env.CONC ? process.env.CONC.split(",").map(Number) : QUICK ? [10] : [10, 100, 500];
 const CONFIGS = selectConfigs();
 const CASES = (await cases()).filter((c) => !process.env.CASES || process.env.CASES.split(",").includes(c.name));
-const OUT = process.env.CONFIGS ? "results/sensitivity.json" : "results/results.json";
+const OUT = process.env.OUT ?? (process.env.CONFIGS ? "results/sensitivity.json" : "results/results.json");
 
 async function bombardier(args: string[], conc: number, dur: string) {
   const p = Bun.spawn(["bombardier", "-c", String(conc), "-d", dur, "-l", "--print", "r", "--format", "json", ...args], { stdout: "pipe", stderr: "inherit" });

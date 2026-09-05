@@ -119,6 +119,20 @@ if (SENS) {
   md.push("");
 }
 
+// ---------- Bun version delta (canary run vs 1.4.2 run, same B/C/D configs) ----------
+const CANARY = await read("results/results-bun141canary.json");
+if (CANARY && R.methodology.sources) {
+  md.push(`## Bun ${CANARY.env.bun} → ${R.env.bun}, same configs\n\nB/C/D were measured twice: first on the canary, then on the 1.4.2 release. Same harness, same order, same day. Deltas at c=100.\n\n| Route | Config | rps canary → 1.4.2 | Δ rps | verdict | mean RSS canary → 1.4.2 | Δ RSS |\n|---|---|---|---|---|---|---|`);
+  facts.push(`\n## Bun version delta (${CANARY.env.bun} → ${R.env.bun}, c=100)`);
+  for (const c of CASES) for (const cfg of ["B", "C", "D"]) {
+    const m0 = run(cfg, c, 100, CANARY), m1 = run(cfg, c, 100); if (!m0 || !m1) continue;
+    const dr = pct(m0.rps, m1.rps), drss = pct(m0.meanRss, m1.meanRss);
+    md.push(`| ${c} | ${cfg} | ${f0(m0.rps)} → ${f0(m1.rps)} | ${sign(dr)} | ${verdict(dr)} | ${f0(m0.meanRss)} → ${f0(m1.meanRss)} MB | ${sign(drss)} |`);
+    facts.push(`- ${c} ${cfg}: rps ${sign(dr)} [${verdict(dr)}], mean RSS ${sign(drss)} (source: results/results-bun141canary.json vs results/results.json, runs[config=${cfg}, case=${c}, concurrency=100].median)`);
+  }
+  md.push("");
+}
+
 if (COST) { md.push(COST.replace(/^# Cost model/, "## Cost model")); facts.push(`\n## Cost model\n- See results/cost-model.md; every row derives from results.json medians at c=100 and results/pricing-snapshot.json (dated). Formula in the file header.`); }
 
 await Bun.write("results/summary.md", md.join("\n"));
