@@ -8,3 +8,4 @@ const app = await NestFactory.create<NestFastifyApplication>(AppModule, new Fast
 });
 app.useGlobalPipes(new StandardSchemaValidationPipe({ validateCustomDecorators: true }));
 await app.listen(Number(process.env.PORT ?? 3000), '0.0.0.0');
+if (process.env.BOOT_MARK) console.error(`boot ${Date.now()}`);
