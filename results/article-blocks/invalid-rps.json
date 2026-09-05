@@ -1,0 +1,29 @@
+{
+  "probe": {
+    "seconds": 10,
+    "concurrency": 100,
+    "route": "GET /cpu?n=15000"
+  },
+  "headline": {
+    "config": "A",
+    "rps": 31180,
+    "non2xx": 910605,
+    "pct": 99.47
+  },
+  "rows": [
+    {
+      "id": "A",
+      "served": 1633,
+      "resets": 153710,
+      "other": 11588,
+      "p99Ms": null
+    },
+    {
+      "id": "C",
+      "served": 2171,
+      "resets": 0,
+      "other": 0,
+      "p99Ms": 506
+    }
+  ]
+}

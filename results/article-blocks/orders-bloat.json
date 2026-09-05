@@ -1,0 +1,76 @@
+{
+  "table": {
+    "live": 200000,
+    "dead": 5911710,
+    "inserts": 32004978,
+    "deletes": 31804978,
+    "autovacuums": 79,
+    "diskMb": 547
+  },
+  "passes": [
+    {
+      "label": "morning pass, A ran first",
+      "order": [
+        {
+          "id": "A",
+          "rps": 13395
+        },
+        {
+          "id": "B",
+          "rps": 13110
+        },
+        {
+          "id": "C",
+          "rps": 15469
+        },
+        {
+          "id": "D",
+          "rps": 14626
+        }
+      ]
+    },
+    {
+      "label": "afternoon pass, B ran first",
+      "order": [
+        {
+          "id": "B",
+          "rps": 22336
+        },
+        {
+          "id": "C",
+          "rps": 15473
+        },
+        {
+          "id": "D",
+          "rps": 15427
+        }
+      ]
+    }
+  ],
+  "fresh": [
+    {
+      "id": "A",
+      "rps": 12287,
+      "p99Ms": 14,
+      "deadBefore": 0
+    },
+    {
+      "id": "B",
+      "rps": 24251,
+      "p99Ms": 10.4,
+      "deadBefore": 1191286
+    },
+    {
+      "id": "C",
+      "rps": 27327,
+      "p99Ms": 10.08,
+      "deadBefore": 0
+    },
+    {
+      "id": "D",
+      "rps": 29094,
+      "p99Ms": 7.28,
+      "deadBefore": 0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "repeats": 10,
+  "configs": [
+    {
+      "id": "A",
+      "bootMs": 405,
+      "idleRssMb": 196,
+      "firstReqMs": 17.5
+    },
+    {
+      "id": "B",
+      "bootMs": 186,
+      "idleRssMb": 90,
+      "firstReqMs": 13.6
+    },
+    {
+      "id": "C",
+      "bootMs": 94,
+      "idleRssMb": 39,
+      "firstReqMs": 17.8
+    },
+    {
+      "id": "D",
+      "bootMs": 44,
+      "idleRssMb": 33,
+      "firstReqMs": 15.6
+    }
+  ]
+}

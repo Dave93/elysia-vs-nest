@@ -1,0 +1,42 @@
+{
+  "config": "C",
+  "concurrency": 100,
+  "seconds": 30,
+  "floorPct": 2.6,
+  "runs": [
+    {
+      "route": "GET /health",
+      "values": [
+        132462,
+        132844,
+        133172,
+        134946,
+        135879
+      ]
+    },
+    {
+      "route": "GET /users/:id",
+      "values": [
+        33201,
+        33353,
+        33269,
+        32993,
+        33014
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "id": "noise",
+      "to": 2.6
+    },
+    {
+      "id": "small",
+      "to": 10
+    },
+    {
+      "id": "real",
+      "to": 20
+    }
+  ]
+}

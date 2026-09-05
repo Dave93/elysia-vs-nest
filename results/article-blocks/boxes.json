@@ -1,0 +1,636 @@
+{
+  "loads": [
+    5000,
+    20000,
+    50000,
+    100000
+  ],
+  "providers": [
+    {
+      "id": "hetzner",
+      "label": "Hetzner",
+      "box": "CAX11 · 2 vCPU / 4 GB"
+    },
+    {
+      "id": "fly",
+      "label": "Fly.io",
+      "box": "shared-cpu-2x 4GB"
+    },
+    {
+      "id": "aws",
+      "label": "AWS",
+      "box": "t4g.medium"
+    }
+  ],
+  "rows": [
+    {
+      "load": 5000,
+      "config": "A",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 512MB × 1",
+          "usd": 3
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 20000,
+      "config": "A",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 2,
+          "usd": 14
+        },
+        {
+          "provider": "fly",
+          "count": 2,
+          "usd": 44
+        },
+        {
+          "provider": "aws",
+          "count": 2,
+          "usd": 50
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX33 × 1",
+          "usd": 10
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-4x 2GB × 1",
+          "usd": 13
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 2",
+          "usd": 25
+        }
+      ]
+    },
+    {
+      "load": 50000,
+      "config": "A",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 4,
+          "usd": 28
+        },
+        {
+          "provider": "fly",
+          "count": 4,
+          "usd": 89
+        },
+        {
+          "provider": "aws",
+          "count": 4,
+          "usd": 99
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX43 × 1",
+          "usd": 18
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-4x 2GB × 2",
+          "usd": 27
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 4",
+          "usd": 50
+        }
+      ]
+    },
+    {
+      "load": 100000,
+      "config": "A",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 8,
+          "usd": 56
+        },
+        {
+          "provider": "fly",
+          "count": 8,
+          "usd": 178
+        },
+        {
+          "provider": "aws",
+          "count": 8,
+          "usd": 199
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX53 × 1",
+          "usd": 35
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-4x 2GB × 4",
+          "usd": 53
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 8",
+          "usd": 99
+        }
+      ]
+    },
+    {
+      "load": 5000,
+      "config": "B",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 512MB × 1",
+          "usd": 3
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 20000,
+      "config": "B",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 512MB × 2",
+          "usd": 7
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 50000,
+      "config": "B",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 3,
+          "usd": 21
+        },
+        {
+          "provider": "fly",
+          "count": 3,
+          "usd": 67
+        },
+        {
+          "provider": "aws",
+          "count": 3,
+          "usd": 74
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX43 × 1",
+          "usd": 18
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 512MB × 5",
+          "usd": 17
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 3",
+          "usd": 37
+        }
+      ]
+    },
+    {
+      "load": 100000,
+      "config": "B",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 5,
+          "usd": 35
+        },
+        {
+          "provider": "fly",
+          "count": 5,
+          "usd": 111
+        },
+        {
+          "provider": "aws",
+          "count": 5,
+          "usd": 124
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX33 × 3",
+          "usd": 30
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 512MB × 10",
+          "usd": 33
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 5",
+          "usd": 62
+        }
+      ]
+    },
+    {
+      "load": 5000,
+      "config": "C",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 1",
+          "usd": 2
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 20000,
+      "config": "C",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 2",
+          "usd": 4
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 50000,
+      "config": "C",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 3,
+          "usd": 21
+        },
+        {
+          "provider": "fly",
+          "count": 3,
+          "usd": 67
+        },
+        {
+          "provider": "aws",
+          "count": 3,
+          "usd": 74
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX43 × 1",
+          "usd": 18
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 5",
+          "usd": 10
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 3",
+          "usd": 37
+        }
+      ]
+    },
+    {
+      "load": 100000,
+      "config": "C",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 5,
+          "usd": 35
+        },
+        {
+          "provider": "fly",
+          "count": 5,
+          "usd": 111
+        },
+        {
+          "provider": "aws",
+          "count": 5,
+          "usd": 124
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX33 × 3",
+          "usd": 30
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 9",
+          "usd": 18
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 5",
+          "usd": 62
+        }
+      ]
+    },
+    {
+      "load": 5000,
+      "config": "D",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 1",
+          "usd": 2
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 20000,
+      "config": "D",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 1,
+          "usd": 7
+        },
+        {
+          "provider": "fly",
+          "count": 1,
+          "usd": 22
+        },
+        {
+          "provider": "aws",
+          "count": 1,
+          "usd": 25
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX23 × 1",
+          "usd": 6
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 2",
+          "usd": 4
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 1",
+          "usd": 12
+        }
+      ]
+    },
+    {
+      "load": 50000,
+      "config": "D",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 3,
+          "usd": 21
+        },
+        {
+          "provider": "fly",
+          "count": 3,
+          "usd": 67
+        },
+        {
+          "provider": "aws",
+          "count": 3,
+          "usd": 74
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX43 × 1",
+          "usd": 18
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 5",
+          "usd": 10
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 3",
+          "usd": 37
+        }
+      ]
+    },
+    {
+      "load": 100000,
+      "config": "D",
+      "fixed": [
+        {
+          "provider": "hetzner",
+          "count": 5,
+          "usd": 35
+        },
+        {
+          "provider": "fly",
+          "count": 5,
+          "usd": 111
+        },
+        {
+          "provider": "aws",
+          "count": 5,
+          "usd": 124
+        }
+      ],
+      "cheapest": [
+        {
+          "provider": "hetzner",
+          "plan": "CX33 × 3",
+          "usd": 30
+        },
+        {
+          "provider": "fly",
+          "plan": "shared-cpu-1x 256MB × 9",
+          "usd": 18
+        },
+        {
+          "provider": "aws",
+          "plan": "t4g.small × 5",
+          "usd": 62
+        }
+      ]
+    }
+  ],
+  "note": "cores = load ÷ (rps per core × 0.5); RAM = ceil(cores) × peak RSS × 1.5. Single process, laptop-derived, no database or bandwidth: the figures are relative, not a quote."
+}
