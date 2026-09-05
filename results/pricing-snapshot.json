@@ -1,0 +1,62 @@
+{
+  "fetchedAt": "2026-09-05",
+  "currency": "USD",
+  "notes": [
+    "Hetzner: monthly USD prices from docs.hetzner.com price-adjustment page (effective 15 June 2026). vCPU counts for shared CX/CAX plans are the published plan sizes (CX23/CAX11 2 vCPU, CX33/CAX21 4, CX43/CAX31 8, CX53/CAX41 16); RAM tiers confirmed on comparedge.com/tools/hetzner/pricing. Re-check on hetzner.com/cloud before publishing.",
+    "Fly.io: shared-cpu and performance Machine prices from fly.io/docs/about/pricing (ams region shown; region-dependent).",
+    "AWS: Linux on-demand us-east-1 hourly from instances.vantage.sh per-instance pages, × 730 h = monthly. Graviton (arm64) only.",
+    "No provider includes Postgres, bandwidth, load balancer or storage here; all four configs would pay the same for those."
+  ],
+  "providers": {
+    "hetzner": {
+      "label": "Hetzner (EU, shared vCPU)",
+      "url": "https://docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/",
+      "plans": [
+        { "name": "CAX11", "vcpu": 2, "ramGB": 4, "monthly": 6.99, "arch": "arm64" },
+        { "name": "CAX21", "vcpu": 4, "ramGB": 8, "monthly": 12.49, "arch": "arm64" },
+        { "name": "CAX31", "vcpu": 8, "ramGB": 16, "monthly": 24.99, "arch": "arm64" },
+        { "name": "CAX41", "vcpu": 16, "ramGB": 32, "monthly": 48.49, "arch": "arm64" },
+        { "name": "CX23", "vcpu": 2, "ramGB": 4, "monthly": 6.49, "arch": "x86" },
+        { "name": "CX33", "vcpu": 4, "ramGB": 8, "monthly": 9.99, "arch": "x86" },
+        { "name": "CX43", "vcpu": 8, "ramGB": 16, "monthly": 18.49, "arch": "x86" },
+        { "name": "CX53", "vcpu": 16, "ramGB": 32, "monthly": 34.99, "arch": "x86" }
+      ]
+    },
+    "fly": {
+      "label": "Fly.io (Machines)",
+      "url": "https://fly.io/docs/about/pricing/",
+      "plans": [
+        { "name": "shared-cpu-1x 256MB", "vcpu": 1, "ramGB": 0.25, "monthly": 2.02 },
+        { "name": "shared-cpu-1x 512MB", "vcpu": 1, "ramGB": 0.5, "monthly": 3.32 },
+        { "name": "shared-cpu-1x 1GB", "vcpu": 1, "ramGB": 1, "monthly": 5.92 },
+        { "name": "shared-cpu-1x 2GB", "vcpu": 1, "ramGB": 2, "monthly": 11.11 },
+        { "name": "shared-cpu-2x 512MB", "vcpu": 2, "ramGB": 0.5, "monthly": 4.04 },
+        { "name": "shared-cpu-2x 1GB", "vcpu": 2, "ramGB": 1, "monthly": 6.64 },
+        { "name": "shared-cpu-2x 2GB", "vcpu": 2, "ramGB": 2, "monthly": 11.83 },
+        { "name": "shared-cpu-2x 4GB", "vcpu": 2, "ramGB": 4, "monthly": 22.22 },
+        { "name": "shared-cpu-4x 1GB", "vcpu": 4, "ramGB": 1, "monthly": 8.08 },
+        { "name": "shared-cpu-4x 2GB", "vcpu": 4, "ramGB": 2, "monthly": 13.27 },
+        { "name": "shared-cpu-4x 4GB", "vcpu": 4, "ramGB": 4, "monthly": 23.66 },
+        { "name": "shared-cpu-8x 2GB", "vcpu": 8, "ramGB": 2, "monthly": 16.15 },
+        { "name": "shared-cpu-8x 4GB", "vcpu": 8, "ramGB": 4, "monthly": 26.54 },
+        { "name": "shared-cpu-8x 8GB", "vcpu": 8, "ramGB": 8, "monthly": 47.32 },
+        { "name": "performance-1x 2GB", "vcpu": 1, "ramGB": 2, "monthly": 32.19 },
+        { "name": "performance-1x 4GB", "vcpu": 1, "ramGB": 4, "monthly": 42.58 },
+        { "name": "performance-2x 4GB", "vcpu": 2, "ramGB": 4, "monthly": 64.39 },
+        { "name": "performance-2x 8GB", "vcpu": 2, "ramGB": 8, "monthly": 85.17 }
+      ]
+    },
+    "aws": {
+      "label": "AWS EC2 on-demand us-east-1 (Graviton)",
+      "url": "https://instances.vantage.sh/aws/ec2/",
+      "plans": [
+        { "name": "t4g.small", "vcpu": 2, "ramGB": 2, "monthly": 12.41, "hourly": 0.017 },
+        { "name": "t4g.medium", "vcpu": 2, "ramGB": 4, "monthly": 24.82, "hourly": 0.034 },
+        { "name": "t4g.large", "vcpu": 2, "ramGB": 8, "monthly": 48.91, "hourly": 0.067 },
+        { "name": "c8g.medium", "vcpu": 1, "ramGB": 2, "monthly": 29.20, "hourly": 0.040 },
+        { "name": "c8g.large", "vcpu": 2, "ramGB": 4, "monthly": 58.40, "hourly": 0.080 },
+        { "name": "c8g.xlarge", "vcpu": 4, "ramGB": 8, "monthly": 116.80, "hourly": 0.160 }
+      ]
+    }
+  }
+}
