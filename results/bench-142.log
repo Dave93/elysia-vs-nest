@@ -95,3 +95,95 @@ boot 278 ms, idle RSS 90.0 MB
 === C Elysia 2 / Bun 1.4 ===
 boot 206 ms, idle RSS 38.8 MB
 [22/63] C/health/c=10
+  run 1: 124799 rps, p99 0.15 ms, rss 62 MB, cpu 109%, other 280%
+  run 2: 124511 rps, p99 0.15 ms, rss 64 MB, cpu 109%, other 288%
+  run 3: 126879 rps, p99 0.15 ms, rss 64 MB, cpu 111%, other 199%
+[23/63] C/health/c=100
+  run 1: 137311 rps, p99 1.35 ms, rss 64 MB, cpu 102%, other 196%
+  run 2: 138675 rps, p99 1.34 ms, rss 64 MB, cpu 103%, other 194%
+  run 3: 136085 rps, p99 1.40 ms, rss 64 MB, cpu 102%, other 230%
+[24/63] C/health/c=500
+  run 1: 132110 rps, p99 4.84 ms, rss 64 MB, cpu 102%, other 243%
+  run 2: 128813 rps, p99 5.03 ms, rss 65 MB, cpu 101%, other 254%
+  run 3: 134407 rps, p99 4.73 ms, rss 65 MB, cpu 102%, other 259%
+[25/63] C/echo/c=10
+  run 1: 109672 rps, p99 0.18 ms, rss 77 MB, cpu 107%, other 256%
+  run 2: 106292 rps, p99 0.20 ms, rss 77 MB, cpu 107%, other 303%
+  run 3: 111715 rps, p99 0.18 ms, rss 77 MB, cpu 108%, other 279%
+[26/63] C/echo/c=100
+  run 1: 116720 rps, p99 1.42 ms, rss 77 MB, cpu 102%, other 180%
+  run 2: 118224 rps, p99 1.41 ms, rss 78 MB, cpu 102%, other 162%
+  run 3: 116332 rps, p99 1.44 ms, rss 78 MB, cpu 102%, other 181%
+[27/63] C/echo/c=500
+  run 1: 115852 rps, p99 5.34 ms, rss 78 MB, cpu 102%, other 187%
+  run 2: 115862 rps, p99 5.28 ms, rss 78 MB, cpu 101%, other 165%  [!] non-2xx 61
+  run 3: 114250 rps, p99 5.43 ms, rss 78 MB, cpu 102%, other 186%
+[28/63] C/me/c=10
+  run 1: 25479 rps, p99 1.00 ms, rss 108 MB, cpu 131%, other 329%
+  run 2: 25614 rps, p99 1.00 ms, rss 108 MB, cpu 133%, other 375%
+  run 3: 25450 rps, p99 1.00 ms, rss 108 MB, cpu 131%, other 344%
+[29/63] C/me/c=100
+  run 1: 26702 rps, p99 6.03 ms, rss 113 MB, cpu 140%, other 370%
+  run 2: 26588 rps, p99 6.13 ms, rss 114 MB, cpu 139%, other 349%
+  run 3: 26878 rps, p99 6.03 ms, rss 115 MB, cpu 140%, other 253%
+[30/63] C/me/c=500
+  run 1: 25108 rps, p99 27.82 ms, rss 126 MB, cpu 144%, other 304%  [!] non-2xx 4
+  run 2: 25599 rps, p99 24.22 ms, rss 128 MB, cpu 146%, other 260%  [!] non-2xx 15
+  run 3: 25720 rps, p99 24.10 ms, rss 130 MB, cpu 145%, other 246%  [!] non-2xx 15
+[31/63] C/user/c=10
+  run 1: 32816 rps, p99 0.81 ms, rss 132 MB, cpu 107%, other 250%
+  run 2: 33143 rps, p99 0.80 ms, rss 132 MB, cpu 108%, other 261%
+  run 3: 30591 rps, p99 0.94 ms, rss 132 MB, cpu 107%, other 323%
+[32/63] C/user/c=100
+  run 1: 34169 rps, p99 4.83 ms, rss 133 MB, cpu 113%, other 303%
+  run 2: 33972 rps, p99 4.81 ms, rss 133 MB, cpu 112%, other 324%
+  run 3: 34038 rps, p99 4.79 ms, rss 133 MB, cpu 112%, other 355%
+[33/63] C/user/c=500
+  run 1: 32825 rps, p99 20.78 ms, rss 136 MB, cpu 118%, other 298%  [!] non-2xx 71
+  run 2: 33117 rps, p99 19.20 ms, rss 144 MB, cpu 118%, other 335%
+  run 3: 33120 rps, p99 21.19 ms, rss 144 MB, cpu 117%, other 324%
+[34/63] C/list/c=10
+  run 1: 23063 rps, p99 1.13 ms, rss 158 MB, cpu 106%, other 370%
+  run 2: 23006 rps, p99 1.13 ms, rss 160 MB, cpu 105%, other 385%
+  run 3: 23383 rps, p99 1.07 ms, rss 161 MB, cpu 107%, other 317%
+[35/63] C/list/c=100
+  run 1: 24995 rps, p99 6.57 ms, rss 162 MB, cpu 120%, other 327%
+  run 2: 24795 rps, p99 6.76 ms, rss 163 MB, cpu 121%, other 340%
+  run 3: 24764 rps, p99 6.75 ms, rss 165 MB, cpu 120%, other 339%
+[36/63] C/list/c=500
+  run 1: 24354 rps, p99 29.55 ms, rss 165 MB, cpu 130%, other 316%
+  run 2: 23935 rps, p99 30.17 ms, rss 165 MB, cpu 128%, other 370%
+  run 3: 23974 rps, p99 29.46 ms, rss 165 MB, cpu 129%, other 381%
+[37/63] C/order/c=10
+  run 1: 21474 rps, p99 1.62 ms, rss 168 MB, cpu 93%, other 350%
+  run 2: 20261 rps, p99 1.98 ms, rss 168 MB, cpu 90%, other 371%
+  run 3: 10587 rps, p99 3.34 ms, rss 168 MB, cpu 54%, other 288%
+[38/63] C/order/c=100
+  run 1: 13181 rps, p99 19.49 ms, rss 168 MB, cpu 67%, other 371%
+  run 2: 13584 rps, p99 18.73 ms, rss 159 MB, cpu 72%, other 549%
+  [contended] foreign CPU 549% — redoing run 2 (retry 1/200)
+  run 2: 19524 rps, p99 15.11 ms, rss 152 MB, cpu 85%, other 432%
+  run 3: 22042 rps, p99 12.92 ms, rss 152 MB, cpu 96%, other 468%
+  [contended] foreign CPU 468% — redoing run 3 (retry 2/200)
+  run 3: 15473 rps, p99 18.96 ms, rss 153 MB, cpu 73%, other 369%
+[39/63] C/order/c=500
+  run 1: 19019 rps, p99 104.46 ms, rss 156 MB, cpu 91%, other 406%  [!] non-2xx 66
+  run 2: 16100 rps, p99 141.55 ms, rss 157 MB, cpu 77%, other 355%  [!] non-2xx 1001
+  run 3: 17811 rps, p99 129.53 ms, rss 159 MB, cpu 87%, other 371%
+[40/63] C/cpu/c=10
+  run 1: 183 rps, p99 104.08 ms, rss 164 MB, cpu 116%, other 222%
+  run 2: 180 rps, p99 105.24 ms, rss 164 MB, cpu 116%, other 223%
+  run 3: 177 rps, p99 108.03 ms, rss 164 MB, cpu 116%, other 234%
+[41/63] C/cpu/c=100
+  run 1: 176 rps, p99 681.03 ms, rss 164 MB, cpu 116%, other 255%
+  run 2: 178 rps, p99 612.30 ms, rss 164 MB, cpu 116%, other 324%
+  run 3: 180 rps, p99 653.34 ms, rss 164 MB, cpu 116%, other 303%
+[42/63] C/cpu/c=500
+  run 1: 43939 rps, p99 48.69 ms, rss 164 MB, cpu 91%, other 169%  [!] non-2xx 1259994
+  run 2: 30419 rps, p99 99.38 ms, rss 145 MB, cpu 97%, other 243%  [!] non-2xx 892846
+  run 3: 33257 rps, p99 95.98 ms, rss 141 MB, cpu 92%, other 283%  [!] non-2xx 973843
+
+=== D Elysia 2 + AOT / Bun 1.4 ===
+boot 46 ms, idle RSS 33.4 MB
+[43/63] D/health/c=10
+  run 1: 124655 rps, p99 0.15 ms, rss 55 MB, cpu 110%, other 222%
