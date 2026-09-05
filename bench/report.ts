@@ -28,7 +28,7 @@ const f1 = (x: number) => x.toFixed(1);
 const f2 = (x: number) => x.toFixed(2);
 const pct = (a: number, b: number) => (a ? ((b - a) / a) * 100 : 0);
 const sign = (x: number) => (x > 0 ? "+" : "") + f1(x) + "%";
-const verdict = (d: number) => (Math.abs(d) < FLOOR ? "noise" : "real");
+const verdict = (d: number) => (Math.abs(d) < FLOOR ? "noise" : Math.abs(d) < 10 ? "small" : "real");
 const run = (cfg: string, c: string, conc: number, src = R) => src.runs.find((r: any) => r.config === cfg && r.case === c && r.concurrency === conc && !r.failed)?.median;
 const src = (cfg: string, c: string, conc: number, field: string, file = "results.json") => `results/${file} → runs[config=${cfg}, case=${c}, concurrency=${conc}].median.${field}`;
 
@@ -43,7 +43,7 @@ facts.push(`- Versions: Bun ${R.env.bun}; Node ${R.env.node}; Elysia ${R.env.ely
 facts.push(`- Method: ${R.methodology.repeats} repeats × ${R.methodology.duration} per combination, ${R.methodology.warmup} warm-up discarded, medians; concurrency ${CONCS.join("/")}; run order ${ORDER.join("→")}; bombardier on the same machine (source: results/results.json → methodology)`);
 
 if (NOISE) {
-  md.push(`## Noise floor\n\nConfig ${NOISE.config}, c=${NOISE.concurrency}, ${NOISE.repeats} back-to-back ${NOISE.duration} runs per route.\n\n| Route | rps per run | spread (max−min)/min | CV |\n|---|---|---|---|\n` + Object.entries<any>(NOISE.cases).map(([k, v]) => `| ${k} | ${v.rps.map(f0).join(", ")} | ${f1(v.spreadPct)}% | ${f1(v.cv * 100)}% |`).join("\n") + `\n\n**Significance floor used below: ±${f1(FLOOR)}%.** Deltas inside it are labelled \`noise\`.\n`);
+  md.push(`## Noise floor\n\nConfig ${NOISE.config}, c=${NOISE.concurrency}, ${NOISE.repeats} back-to-back ${NOISE.duration} runs per route.\n\n| Route | rps per run | spread (max−min)/min | CV |\n|---|---|---|---|\n` + Object.entries<any>(NOISE.cases).map(([k, v]) => `| ${k} | ${v.rps.map(f0).join(", ")} | ${f1(v.spreadPct)}% | ${f1(v.cv * 100)}% |`).join("\n") + `\n\n**Significance floor used below: ±${f1(FLOOR)}%.** Deltas inside it are labelled \`noise\`; between the floor and 10% \`small\`; 10% and above \`real\`.\n`);
   facts.push(`\n## Noise floor\n- Measured run-to-run spread on config C at c=100: ${Object.entries<any>(NOISE.cases).map(([k, v]) => `${k} ${f1(v.spreadPct)}%`).join(", ")}; floor used = ±${f1(FLOOR)}% (source: results/noise.json → cases, floorPct)`);
 }
 
