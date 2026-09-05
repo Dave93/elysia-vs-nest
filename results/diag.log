@@ -1,0 +1,11 @@
+12 |   if (cur !== p.cfg) { if (srv) await srv.stop(); srv = await startServer(CONFIGS.find((x) => x.id === p.cfg)!); cur = p.cfg; }
+13 |   const cs = CS.find((x) => x.name === p.c)!;
+14 |   const proc = Bun.spawn(["bombardier", "-c", String(p.conc), "-d", "10s", "--print", "r", "--format", "json", ...bombardierArgs(cs)], { stdout: "pipe", stderr: "ignore" });
+15 |   const text = await new Response(proc.stdout).text(); await proc.exited;
+16 |   const raw = JSON.parse(text).result;
+17 |   const row = { ...p, rps: raw.rps.mean, req2xx: raw.req2xx, req4xx: raw.req4xx, req5xx: raw.req5xx, others: raw.others, errors: raw.errors ?? null, latencyP99ms: raw.latency.percentiles["99"] / 1000 };
+                                                                                                                                                                                    ^
+TypeError: undefined is not an object (evaluating 'raw.latency.percentiles["99"]')
+      at /Users/macbookpro/development/elysia_vs_nest/bench/diag.ts:17:176
+
+Bun v1.4.2 (macOS arm64)
