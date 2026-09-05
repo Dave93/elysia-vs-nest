@@ -1,6 +1,6 @@
 // bench/bench.ts — full run: bun bench/bench.ts (~2.5 h). Plumbing: BENCH_QUICK=1 bun bench/bench.ts
 // Sensitivity: CONFIGS=B-pgjs,A-typebox CASES=me,user,list,order,echo CONC=100 bun bench/bench.ts
-import { selectConfigs, startServer, startSampler, sampleProc, collectEnv, median, mean } from "./lib";
+import { selectConfigs, startServer, startSampler, startSysSampler, sampleProc, collectEnv, median, mean } from "./lib";
 import { cases, bombardierArgs } from "./cases";
 import { resetOrders } from "./db-reset";
 import { mkdirSync } from "node:fs";
@@ -57,15 +57,15 @@ for (const cfg of CONFIGS) {
           await bombardier(bombardierArgs(c), conc, WARMUP);
           const reps: any[] = [];
           for (let i = 0; i < REPEATS; i++) {
-            const sampler = startSampler(srv.pid);
+            const sampler = startSampler(srv.pid); const sys = startSysSampler(srv.pid);
             const r = await bombardier(bombardierArgs(c), conc, DURATION);
-            const samples = sampler.stop();
+            const samples = sampler.stop(); const other = sys.stop();
             const rss = samples.map((s) => s.rss), cpu = samples.map((s) => s.cpu);
-            reps.push({ ...r, rss: { mean: mean(rss), peak: Math.max(0, ...rss) }, cpu: { mean: mean(cpu), peak: Math.max(0, ...cpu) } });
-            console.log(`  run ${i + 1}: ${r.rps.toFixed(0)} rps, p99 ${r.latMs.p99.toFixed(2)} ms, rss ${mean(rss).toFixed(0)} MB, cpu ${mean(cpu).toFixed(0)}%${r.non2xx ? `  [!] non-2xx ${r.non2xx}` : ""}`);
+            reps.push({ ...r, rss: { mean: mean(rss), peak: Math.max(0, ...rss) }, cpu: { mean: mean(cpu), peak: Math.max(0, ...cpu) }, otherCpu: { mean: mean(other), peak: Math.max(0, ...other) } });
+            console.log(`  run ${i + 1}: ${r.rps.toFixed(0)} rps, p99 ${r.latMs.p99.toFixed(2)} ms, rss ${mean(rss).toFixed(0)} MB, cpu ${mean(cpu).toFixed(0)}%, other ${mean(other).toFixed(0)}%${r.non2xx ? `  [!] non-2xx ${r.non2xx}` : ""}`);
           }
           const m = (f: (r: any) => number) => median(reps.map(f));
-          const med = { rps: m((r) => r.rps), p50: m((r) => r.latMs.p50), p90: m((r) => r.latMs.p90), p99: m((r) => r.latMs.p99), non2xx: m((r) => r.non2xx), meanRss: m((r) => r.rss.mean), peakRss: m((r) => r.rss.peak), meanCpu: m((r) => r.cpu.mean), peakCpu: m((r) => r.cpu.peak) };
+          const med = { rps: m((r) => r.rps), p50: m((r) => r.latMs.p50), p90: m((r) => r.latMs.p90), p99: m((r) => r.latMs.p99), non2xx: m((r) => r.non2xx), meanRss: m((r) => r.rss.mean), peakRss: m((r) => r.rss.peak), meanCpu: m((r) => r.cpu.mean), peakCpu: m((r) => r.cpu.peak), otherCpu: m((r) => r.otherCpu.mean) };
           results.runs.push({ config: cfg.id, case: c.name, concurrency: conc, repeats: reps, median: { ...med, rpsPerCore: med.meanCpu ? med.rps / (med.meanCpu / 100) : 0, rpsPerMB: med.meanRss ? med.rps / med.meanRss : 0 } });
         } catch (err) {
           console.error(`  FAILED: ${err}`);

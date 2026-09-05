@@ -102,3 +102,21 @@ export async function collectEnv() {
     drizzle: await pkg("apps/elysia-api/node_modules/drizzle-orm/package.json"),
   };
 }
+
+// System-wide CPU used by processes other than the server and bombardier (sum of %CPU, 100 = one core).
+export async function otherCpu(serverPid: number): Promise<number> {
+  const out = await sh(["ps", "-Ao", "pid=,pcpu=,comm="]);
+  let sum = 0;
+  for (const line of out.split("\n")) {
+    const m = line.trim().match(/^(\d+)\s+([\d.]+)\s+(.*)$/); if (!m) continue;
+    const pid = Number(m[1]), cpu = Number(m[2]), comm = m[3];
+    if (pid === serverPid || pid === process.pid || /bombardier$/.test(comm) || /\/ps$/.test(comm)) continue;
+    sum += cpu;
+  }
+  return sum;
+}
+export function startSysSampler(serverPid: number) {
+  const samples: number[] = []; let active = true;
+  (async () => { while (active) { samples.push(await otherCpu(serverPid)); await Bun.sleep(1000); } })();
+  return { stop: () => { active = false; return samples; } };
+}

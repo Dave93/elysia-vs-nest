@@ -4,3 +4,91 @@ START Sat Sep  5 11:49:19 +05 2026
 boot 260 ms, idle RSS 89.6 MB
 [1/63] B/health/c=10
   run 1: 87679 rps, p99 0.24 ms, rss 161 MB, cpu 105%
+  run 2: 88487 rps, p99 0.23 ms, rss 163 MB, cpu 105%
+  run 3: 88713 rps, p99 0.23 ms, rss 168 MB, cpu 106%
+[2/63] B/health/c=100
+  run 1: 88969 rps, p99 1.91 ms, rss 174 MB, cpu 103%
+  run 2: 88513 rps, p99 1.92 ms, rss 176 MB, cpu 103%
+  run 3: 89259 rps, p99 1.90 ms, rss 176 MB, cpu 102%
+[3/63] B/health/c=500
+  run 1: 81971 rps, p99 7.61 ms, rss 192 MB, cpu 103%
+  run 2: 81256 rps, p99 7.63 ms, rss 193 MB, cpu 102%  [!] non-2xx 139
+  run 3: 81103 rps, p99 7.76 ms, rss 193 MB, cpu 102%
+[4/63] B/echo/c=10
+  run 1: 61179 rps, p99 0.44 ms, rss 208 MB, cpu 104%
+  run 2: 62781 rps, p99 0.41 ms, rss 208 MB, cpu 104%
+  run 3: 65411 rps, p99 0.35 ms, rss 208 MB, cpu 104%
+[5/63] B/echo/c=100
+  run 1: 61376 rps, p99 3.83 ms, rss 194 MB, cpu 100%
+  run 2: 59265 rps, p99 3.50 ms, rss 149 MB, cpu 100%
+  run 3: 61448 rps, p99 3.01 ms, rss 150 MB, cpu 102%
+[6/63] B/echo/c=500
+  run 1: 61121 rps, p99 11.46 ms, rss 158 MB, cpu 102%
+  run 2: 63142 rps, p99 9.72 ms, rss 162 MB, cpu 103%
+  run 3: 63391 rps, p99 9.64 ms, rss 165 MB, cpu 102%
+[7/63] B/me/c=10
+  run 1: 21014 rps, p99 1.49 ms, rss 201 MB, cpu 126%
+  run 2: 20964 rps, p99 1.48 ms, rss 202 MB, cpu 125%
+  run 3: 20875 rps, p99 1.47 ms, rss 202 MB, cpu 126%
+[8/63] B/me/c=100
+  run 1: 21080 rps, p99 8.79 ms, rss 206 MB, cpu 133%
+  run 2: 21638 rps, p99 9.63 ms, rss 205 MB, cpu 132%
+  run 3: 22222 rps, p99 8.81 ms, rss 204 MB, cpu 132%
+[9/63] B/me/c=500
+  run 1: 20733 rps, p99 38.91 ms, rss 222 MB, cpu 135%  [!] non-2xx 15
+  run 2: 21094 rps, p99 33.38 ms, rss 226 MB, cpu 138%  [!] non-2xx 39
+  run 3: 20332 rps, p99 41.17 ms, rss 227 MB, cpu 136%
+[10/63] B/user/c=10
+  run 1: 25302 rps, p99 1.26 ms, rss 229 MB, cpu 104%
+  run 2: 25619 rps, p99 1.21 ms, rss 229 MB, cpu 103%
+  run 3: 23463 rps, p99 1.47 ms, rss 197 MB, cpu 100%
+[11/63] B/user/c=100
+  run 1: 27336 rps, p99 7.01 ms, rss 197 MB, cpu 107%
+  run 2: 24924 rps, p99 9.70 ms, rss 199 MB, cpu 106%
+  run 3: 26381 rps, p99 8.38 ms, rss 199 MB, cpu 107%
+[12/63] B/user/c=500
+  run 1: 23670 rps, p99 38.40 ms, rss 207 MB, cpu 110%
+  run 2: 24077 rps, p99 37.95 ms, rss 208 MB, cpu 111%
+  run 3: 23850 rps, p99 39.52 ms, rss 208 MB, cpu 111%
+[13/63] B/list/c=10
+  run 1: 17772 rps, p99 1.87 ms, rss 223 MB, cpu 99%
+  run 2: 17512 rps, p99 1.76 ms, rss 186 MB, cpu 102%
+  run 3: 17474 rps, p99 1.90 ms, rss 174 MB, cpu 100%
+[14/63] B/list/c=100
+  run 1: 18256 rps, p99 11.15 ms, rss 188 MB, cpu 112%
+  run 2: 18579 rps, p99 10.10 ms, rss 201 MB, cpu 113%
+  run 3: 18341 rps, p99 10.32 ms, rss 206 MB, cpu 113%
+[15/63] B/list/c=500
+  run 1: 18259 rps, p99 41.45 ms, rss 213 MB, cpu 118%  [!] non-2xx 46
+  run 2: 18156 rps, p99 40.79 ms, rss 217 MB, cpu 117%  [!] non-2xx 4
+  run 3: 17872 rps, p99 41.88 ms, rss 216 MB, cpu 117%
+[16/63] B/order/c=10
+  run 1: 14284 rps, p99 2.98 ms, rss 235 MB, cpu 82%
+  run 2: 10869 rps, p99 3.44 ms, rss 235 MB, cpu 65%
+  run 3: 11323 rps, p99 3.79 ms, rss 235 MB, cpu 65%
+[17/63] B/order/c=100
+  run 1: 13375 rps, p99 18.42 ms, rss 235 MB, cpu 76%
+  run 2: 11404 rps, p99 17.86 ms, rss 236 MB, cpu 70%
+  run 3: 13096 rps, p99 23.62 ms, rss 236 MB, cpu 76%
+[18/63] B/order/c=500
+  run 1: 17881 rps, p99 70.35 ms, rss 237 MB, cpu 97%
+  run 2: 15796 rps, p99 120.64 ms, rss 238 MB, cpu 84%  [!] non-2xx 628
+  run 3: 14512 rps, p99 135.69 ms, rss 220 MB, cpu 88%  [!] non-2xx 500
+[19/63] B/cpu/c=10
+  run 1: 145 rps, p99 165.42 ms, rss 215 MB, cpu 103%
+  run 2: 167 rps, p99 115.83 ms, rss 224 MB, cpu 109%
+  run 3: 168 rps, p99 114.72 ms, rss 224 MB, cpu 111%
+[20/63] B/cpu/c=100
+  run 1: 145 rps, p99 1340.55 ms, rss 196 MB, cpu 106%
+  run 2: 148 rps, p99 930.25 ms, rss 189 MB, cpu 107%
+  run 3: 142 rps, p99 1026.96 ms, rss 175 MB, cpu 106%
+[21/63] B/cpu/c=500
+  run 1: 28542 rps, p99 122.51 ms, rss 122 MB, cpu 86%  [!] non-2xx 823936
+  run 2: 30114 rps, p99 116.94 ms, rss 122 MB, cpu 88%  [!] non-2xx 880651
+  run 3: 32523 rps, p99 75.62 ms, rss 122 MB, cpu 93%  [!] non-2xx 963053
+
+=== C Elysia 2 / Bun 1.4 ===
+boot 233 ms, idle RSS 39.0 MB
+[22/63] C/health/c=10
+  run 1: 100040 rps, p99 0.28 ms, rss 64 MB, cpu 104%
+  run 2: 100498 rps, p99 0.28 ms, rss 50 MB, cpu 105%
