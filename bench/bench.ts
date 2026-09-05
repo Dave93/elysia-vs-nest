@@ -13,7 +13,7 @@ const CONCURRENCIES = process.env.CONC ? process.env.CONC.split(",").map(Number)
 const CONFIGS = selectConfigs();
 const CASES = (await cases()).filter((c) => !process.env.CASES || process.env.CASES.split(",").includes(c.name));
 const CONTENTION = Number(process.env.CONTENTION ?? 150); // % foreign CPU (100 = one core) above which a repeat is redone
-const MAX_RETRY = 3;
+const MAX_RETRY = Number(process.env.MAX_RETRY ?? 3);
 async function waitIdle(label: string) {
   for (;;) {
     const xs: number[] = []; for (let i = 0; i < 5; i++) { xs.push(await otherCpu(0)); await Bun.sleep(1000); }
