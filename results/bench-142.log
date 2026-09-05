@@ -92,3 +92,6 @@ boot 233 ms, idle RSS 39.0 MB
 [22/63] C/health/c=10
   run 1: 100040 rps, p99 0.28 ms, rss 64 MB, cpu 104%
   run 2: 100498 rps, p99 0.28 ms, rss 50 MB, cpu 105%
+  run 3: 108458 rps, p99 0.22 ms, rss 49 MB, cpu 108%
+[23/63] C/health/c=100
+  run 1: 114483 rps, p99 1.86 ms, rss 50 MB, cpu 97%
