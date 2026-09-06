@@ -84,7 +84,7 @@ The Nest 12 line is stable across the official packages; one (`@nestjs/throttler
 | Build | `Bun.build`, optional `aot()` plugin | `nest build` with SWC builder + `.swcrc` |
 | Runtime portability | `@elysia/node` adapter exists (not benchmarked) | same `dist/` ran on Node and Bun unchanged |
 
-## Measured (bench/dx.ts, bench/boot.ts — 2026-09-05, Bun 1.4.2, Node 26.3.1)
+## Measured (bench/dx.ts 2026-09-05, bench/boot.ts 2026-09-06 — Bun 1.4.2, Node 26.3.1)
 
 | Metric | Elysia 2 (Bun) | NestJS 12 (npm/Node) |
 |---|---|---|
@@ -103,9 +103,9 @@ Startup, 10 cold starts per config (spawn → first 200 from `/health`; then the
 
 | Config | boot to healthy, median | first DB request, median |
 |---|---|---|
-| A · Nest 12 + Fastify / Node 26 | 405 ms | 17.5 ms |
-| B · Nest 12 + Fastify / Bun 1.4.2 | 186 ms | 13.6 ms |
-| C · Elysia 2 / Bun 1.4.2 | 94 ms | 17.8 ms |
-| D · Elysia 2 + AOT / Bun 1.4.2 | 44 ms | 15.6 ms |
+| A · Nest 12 + Fastify / Node 26 | 400 ms | 17.0 ms |
+| B · Nest 12 + Fastify / Bun 1.4.2 | 181 ms | 13.1 ms |
+| C · Elysia 2 / Bun 1.4.2 | 96 ms | 17.7 ms |
+| D · Elysia 2 + AOT / Bun 1.4.2 | 47 ms | 15.3 ms |
 
-Idle RSS 1.5 s after healthy (from the benchmark run): A 196 MB, B 90 MB, C 39 MB, D 33 MB.
+Idle RSS 1.5 s after healthy (clean pass 2026-09-06): A 197 MB, B 90 MB, C 39 MB, D 33 MB. Boot medians above are from the same day's `boot.ts` run (10 cold starts each).

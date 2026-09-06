@@ -39,11 +39,21 @@ Seven routes, identical in both apps, against one Postgres database seeded with 
 
 `NODE_ENV=production` everywhere; Nest logger and Fastify logger off; no request logging in Elysia. Pool size 10 in both. One process per configuration, no cluster mode; the cost model normalizes per core instead. Port 3000 for all; each server is stopped with SIGTERM and awaited before the next starts. Run order A, B, C, D, fixed and recorded. The `orders` table is reset to its seeded state before each configuration.
 
+## Which run is the final one
+
+The numbers in `results/results.json`, `summary.md`, `facts.md` and `cost-model.md` come from one pass on 2026-09-06, 10:06–13:03: all four configurations in sequence on Bun 1.4.2, contention gate at 600 % foreign CPU, zero windows redone, noise floor 1.2 % measured immediately before it. Earlier passes (2026-09-05: the canary-Bun run, the merged canary/1.4.2 set, and an overnight attempt that spent ten hours fighting macOS background daemons) are kept under `results/` with their own names and are referenced only in the friction log.
+
 ## Measurement
 
 `bench/bench.ts` drives bombardier (`--format json`) at concurrency 10, 100 and 500. Each combination gets a 5 s warm-up that is discarded, then three 30 s runs; the median of the three is what the tables report. During every run a sampler reads `ps -o rss=,%cpu=` for the server PID every 500 ms; mean and peak RSS and CPU come from those samples, where 100 % means one core. Derived: rps per core = rps ÷ (mean CPU ÷ 100); rps per MB = rps ÷ mean RSS. Idle RSS is a single sample 1.5 s after the server reported healthy, before any load. Results are written to disk after every combination.
 
-**Noise floor.** Before the main run, `bench/noise.ts` hits `/health` and `/users/4242` on configuration C at c=100 five times back to back (30 s each). The largest spread, (max − min) ÷ min, is the significance floor. Any delta smaller than it is labelled `noise` in `summary.md` and `facts.md`.
+**Noise floor.** Before the main run, `bench/noise.ts` hits `/health` and `/users/4242` on configuration C at c=100 five times back to back (30 s each). The largest spread, (max − min) ÷ min, is the significance floor: 1.2 % for the final pass. Deltas below it are labelled `noise`, between the floor and 10 % `small`, above 10 % `real`. A combination with more than 1 % non-2xx responses is labelled `invalid`; its rps counts connection resets, not served requests.
+
+**Contention gate.** The harness samples the CPU used by every process other than the server, bombardier and itself once a second. It waits before starting until that figure is below a threshold, and any 30 s window that saw foreign CPU at or above the threshold is discarded and re-run. On this Mac the threshold was 600 %, above a steady baseline of macOS daemons and below any build or typecheck.
+
+**Orders table.** Each configuration inserts millions of rows during its `/orders` combinations. Before every configuration the table is reset to its 200,000 seeded rows and `VACUUM (FULL, ANALYZE)` runs, so no configuration inherits the previous one's dead tuples. A separate fresh-table pass after the main run repeats `/orders` at c=100 as a cross-check.
+
+**AOT interleave.** To separate a build-step effect from time-of-day drift, C and D are also run alternately (C, D, C, D) on `/health`, `/me` and `/users/:id`, 3 × 30 s per cell.
 
 **Startup.** `bench/boot.ts` cold-starts each configuration ten times, measuring spawn → first 200 from `/health`, then the latency of the first `/users/4242` request on that fresh process.
 

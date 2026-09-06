@@ -8,10 +8,10 @@ Formula: cores = load ÷ (rps per core × 0.5); RAM = ceil(cores) × peak RSS ×
 
 | Config | rps/core | peak RSS MB | cores needed | Hetzner (EU, shared vCPU) | Fly.io (Machines) | AWS EC2 on-demand us-east-1 (Graviton) |
 |---|---|---|---|---|---|---|
-| A | 13086 | 303 | 0.76 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 1 = $3/mo | t4g.small × 1 = $12/mo |
-| B | 21628 | 288 | 0.46 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 1 = $3/mo | t4g.small × 1 = $12/mo |
-| C | 23868 | 165 | 0.42 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 1 = $2/mo | t4g.small × 1 = $12/mo |
-| D | 22983 | 134 | 0.44 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 1 = $2/mo | t4g.small × 1 = $12/mo |
+| A | 13978 | 311 | 0.72 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 1 = $3/mo | t4g.small × 1 = $12/mo |
+| B | 22631 | 327 | 0.44 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 1 = $3/mo | t4g.small × 1 = $12/mo |
+| C | 24260 | 179 | 0.41 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 1 = $3/mo | t4g.small × 1 = $12/mo |
+| D | 23967 | 155 | 0.42 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 1 = $2/mo | t4g.small × 1 = $12/mo |
 
 Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-2x 4GB, t4g.medium):
 
@@ -26,10 +26,10 @@ Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-
 
 | Config | rps/core | peak RSS MB | cores needed | Hetzner (EU, shared vCPU) | Fly.io (Machines) | AWS EC2 on-demand us-east-1 (Graviton) |
 |---|---|---|---|---|---|---|
-| A | 13086 | 303 | 3.06 | CX33 × 1 = $10/mo | shared-cpu-4x 2GB × 1 = $13/mo | t4g.small × 2 = $25/mo |
-| B | 21628 | 288 | 1.85 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 2 = $7/mo | t4g.small × 1 = $12/mo |
-| C | 23868 | 165 | 1.68 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 2 = $4/mo | t4g.small × 1 = $12/mo |
-| D | 22983 | 134 | 1.74 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 2 = $4/mo | t4g.small × 1 = $12/mo |
+| A | 13978 | 311 | 2.86 | CX33 × 1 = $10/mo | shared-cpu-1x 512MB × 3 = $10/mo | t4g.small × 2 = $25/mo |
+| B | 22631 | 327 | 1.77 | CX23 × 1 = $6/mo | shared-cpu-1x 512MB × 2 = $7/mo | t4g.small × 1 = $12/mo |
+| C | 24260 | 179 | 1.65 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 3 = $6/mo | t4g.small × 1 = $12/mo |
+| D | 23967 | 155 | 1.67 | CX23 × 1 = $6/mo | shared-cpu-1x 256MB × 2 = $4/mo | t4g.small × 1 = $12/mo |
 
 Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-2x 4GB, t4g.medium):
 
@@ -44,10 +44,10 @@ Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-
 
 | Config | rps/core | peak RSS MB | cores needed | Hetzner (EU, shared vCPU) | Fly.io (Machines) | AWS EC2 on-demand us-east-1 (Graviton) |
 |---|---|---|---|---|---|---|
-| A | 13086 | 303 | 7.64 | CX43 × 1 = $18/mo | shared-cpu-4x 2GB × 2 = $27/mo | t4g.small × 4 = $50/mo |
-| B | 21628 | 288 | 4.62 | CX43 × 1 = $18/mo | shared-cpu-1x 512MB × 5 = $17/mo | t4g.small × 3 = $37/mo |
-| C | 23868 | 165 | 4.19 | CX43 × 1 = $18/mo | shared-cpu-1x 256MB × 5 = $10/mo | t4g.small × 3 = $37/mo |
-| D | 22983 | 134 | 4.35 | CX43 × 1 = $18/mo | shared-cpu-1x 256MB × 5 = $10/mo | t4g.small × 3 = $37/mo |
+| A | 13978 | 311 | 7.15 | CX43 × 1 = $18/mo | shared-cpu-4x 2GB × 2 = $27/mo | t4g.small × 4 = $50/mo |
+| B | 22631 | 327 | 4.42 | CX43 × 1 = $18/mo | shared-cpu-1x 512MB × 5 = $17/mo | t4g.small × 3 = $37/mo |
+| C | 24260 | 179 | 4.12 | CX43 × 1 = $18/mo | shared-cpu-1x 256MB × 6 = $12/mo | t4g.small × 3 = $37/mo |
+| D | 23967 | 155 | 4.17 | CX43 × 1 = $18/mo | shared-cpu-1x 256MB × 5 = $10/mo | t4g.small × 3 = $37/mo |
 
 Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-2x 4GB, t4g.medium):
 
@@ -62,10 +62,10 @@ Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-
 
 | Config | rps/core | peak RSS MB | cores needed | Hetzner (EU, shared vCPU) | Fly.io (Machines) | AWS EC2 on-demand us-east-1 (Graviton) |
 |---|---|---|---|---|---|---|
-| A | 13086 | 303 | 15.28 | CX53 × 1 = $35/mo | shared-cpu-4x 2GB × 4 = $53/mo | t4g.small × 8 = $99/mo |
-| B | 21628 | 288 | 9.25 | CX33 × 3 = $30/mo | shared-cpu-1x 512MB × 10 = $33/mo | t4g.small × 5 = $62/mo |
-| C | 23868 | 165 | 8.38 | CX33 × 3 = $30/mo | shared-cpu-1x 256MB × 9 = $18/mo | t4g.small × 5 = $62/mo |
-| D | 22983 | 134 | 8.70 | CX33 × 3 = $30/mo | shared-cpu-1x 256MB × 9 = $18/mo | t4g.small × 5 = $62/mo |
+| A | 13978 | 311 | 14.31 | CX53 × 1 = $35/mo | shared-cpu-1x 512MB × 15 = $50/mo | t4g.small × 8 = $99/mo |
+| B | 22631 | 327 | 8.84 | CX33 × 3 = $30/mo | shared-cpu-1x 512MB × 9 = $30/mo | t4g.small × 5 = $62/mo |
+| C | 24260 | 179 | 8.24 | CX33 × 3 = $30/mo | shared-cpu-1x 256MB × 10 = $20/mo | t4g.small × 5 = $62/mo |
+| D | 23967 | 155 | 8.34 | CX33 × 3 = $30/mo | shared-cpu-1x 256MB × 9 = $18/mo | t4g.small × 5 = $62/mo |
 
 Same load on one fixed box class per provider (2 vCPU / 4 GB: CAX11, shared-cpu-2x 4GB, t4g.medium):
 
