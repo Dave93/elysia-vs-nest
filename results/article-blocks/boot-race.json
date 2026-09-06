@@ -3,27 +3,27 @@
   "configs": [
     {
       "id": "A",
-      "bootMs": 405,
-      "idleRssMb": 196,
-      "firstReqMs": 17.5
+      "bootMs": 400,
+      "idleRssMb": 197,
+      "firstReqMs": 17
     },
     {
       "id": "B",
-      "bootMs": 186,
+      "bootMs": 181,
       "idleRssMb": 90,
-      "firstReqMs": 13.6
+      "firstReqMs": 13.1
     },
     {
       "id": "C",
-      "bootMs": 94,
+      "bootMs": 96,
       "idleRssMb": 39,
-      "firstReqMs": 17.8
+      "firstReqMs": 17.7
     },
     {
       "id": "D",
-      "bootMs": 44,
+      "bootMs": 47,
       "idleRssMb": 33,
-      "firstReqMs": 15.6
+      "firstReqMs": 15.3
     }
   ]
 }

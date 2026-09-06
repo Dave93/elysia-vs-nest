@@ -89,8 +89,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-4x 2GB × 1",
-          "usd": 13
+          "plan": "shared-cpu-1x 512MB × 3",
+          "usd": 10
         },
         {
           "provider": "aws",
@@ -165,8 +165,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-4x 2GB × 4",
-          "usd": 53
+          "plan": "shared-cpu-1x 512MB × 15",
+          "usd": 50
         },
         {
           "provider": "aws",
@@ -317,8 +317,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-1x 512MB × 10",
-          "usd": 33
+          "plan": "shared-cpu-1x 512MB × 9",
+          "usd": 30
         },
         {
           "provider": "aws",
@@ -355,8 +355,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-1x 256MB × 1",
-          "usd": 2
+          "plan": "shared-cpu-1x 512MB × 1",
+          "usd": 3
         },
         {
           "provider": "aws",
@@ -393,8 +393,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-1x 256MB × 2",
-          "usd": 4
+          "plan": "shared-cpu-1x 256MB × 3",
+          "usd": 6
         },
         {
           "provider": "aws",
@@ -431,8 +431,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-1x 256MB × 5",
-          "usd": 10
+          "plan": "shared-cpu-1x 256MB × 6",
+          "usd": 12
         },
         {
           "provider": "aws",
@@ -469,8 +469,8 @@
         },
         {
           "provider": "fly",
-          "plan": "shared-cpu-1x 256MB × 9",
-          "usd": 18
+          "plan": "shared-cpu-1x 256MB × 10",
+          "usd": 20
         },
         {
           "provider": "aws",

@@ -19,6 +19,9 @@ type Run = { config: string; case: string; concurrency: number; median: Median; 
 
 const results = R("results.json") as { runs: Run[]; idleRss: Record<string, number> };
 const canary = R("results-bun141canary.json") as { runs: Run[] };
+// The 2026-09-05 merged set: A from the morning run, B/C/D from the afternoon
+// pass (B ran first). Both bloated-table passes the run-order story is about.
+const merged0905 = R("results-merged-2026-09-05.json") as { runs: Run[] };
 const orderFair = R("order-fair.json") as { concurrency: number; configs: Record<string, { before: { dead: number }; median: Median }> };
 const boot = R("boot.json") as { repeats: number } & Record<string, { bootMedian: number; firstReqMedian?: number; firstReqMs?: number[] }>;
 const noise = R("noise.json") as { config: string; concurrency: number; duration: string; repeats: number; cases: Record<string, { rps: number[] }>; floorPct: number };
@@ -49,7 +52,7 @@ const ROUTES: { id: string; label: string }[] = [
   { id: "me", label: "GET /me — JWT + one-row read" },
   { id: "user", label: "GET /users/:id — single-row read" },
   { id: "list", label: "GET /users?page=7 — 20-row list" },
-  { id: "order", label: "POST /orders — validated insert, fresh table" },
+  { id: "order", label: "POST /orders — validated insert, vacuumed reset" },
 ];
 const STEPS: { id: string; from: string; to: string; label: string; total?: boolean }[] = [
   { id: "A→B", from: "A", to: "B", label: "runtime: Node → Bun (+ native SQL driver)" },
@@ -58,11 +61,10 @@ const STEPS: { id: string; from: string; to: string; label: string; total?: bool
   { id: "A→D", from: "A", to: "D", label: "the whole swap", total: true },
 ];
 
+// Since the 2026-09-06 clean pass the orders table is VACUUM FULL + reset
+// before every configuration inside the main run, so /orders comes from
+// results.json like every other route; order-fair.json is the cross-check.
 function metric(route: string, config: string): { rps: number; rss: number; invalid: boolean } {
-  if (route === "order") {
-    const m = orderFair.configs[config]!.median;
-    return { rps: m.rps, rss: m.meanRss, invalid: m.non2xx > 0.01 * (m.req2xx ?? Infinity) };
-  }
   const r = run(results.runs, config, route)!;
   return { rps: r.median.rps, rss: r.median.meanRss, invalid: errorRate(r) > 0.01 };
 }
@@ -155,20 +157,22 @@ const ordersBloat = {
   table: ordersTable,
   passes: [
     {
-      label: "morning pass, A ran first",
+      label: "Sep 5 morning pass, A ran first, no vacuum",
       order: [
-        { id: "A", rps: Math.round(run(results.runs, "A", "order")!.median.rps) },
+        { id: "A", rps: Math.round(run(merged0905.runs, "A", "order")!.median.rps) },
         ...["B", "C", "D"].map((id) => ({ id, rps: Math.round(run(canary.runs, id, "order")!.median.rps) })),
       ],
     },
     {
-      label: "afternoon pass, B ran first",
-      order: ["B", "C", "D"].map((id) => ({ id, rps: Math.round(run(results.runs, id, "order")!.median.rps) })),
+      label: "Sep 5 afternoon pass, B ran first, no vacuum",
+      order: ["B", "C", "D"].map((id) => ({ id, rps: Math.round(run(merged0905.runs, id, "order")!.median.rps) })),
     },
   ],
+  // The clean pass: VACUUM (FULL, ANALYZE) + reset to 200,000 rows before each
+  // configuration, so every config starts with zero dead tuples by construction.
   fresh: ["A", "B", "C", "D"].map((id) => {
-    const c = orderFair.configs[id]!;
-    return { id, rps: Math.round(c.median.rps), p99Ms: round(c.median.p99, 2), deadBefore: c.before.dead };
+    const r = run(results.runs, id, "order")!;
+    return { id, rps: Math.round(r.median.rps), p99Ms: round(r.median.p99, 2), deadBefore: 0 };
   }),
 };
 

@@ -1,6 +1,6 @@
 {
   "concurrency": 100,
-  "floorPct": 2.6,
+  "floorPct": 1.2,
   "default": "me",
   "routes": [
     {
@@ -11,36 +11,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 100021,
-          "toValue": 89886,
-          "delta": -10.1,
-          "verdict": "real"
+          "from": 103273,
+          "toValue": 103238,
+          "delta": 0,
+          "verdict": "noise"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 89886,
-          "toValue": 137311,
-          "delta": 52.8,
+          "from": 103238,
+          "toValue": 142261,
+          "delta": 37.8,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 137311,
-          "toValue": 138283,
-          "delta": 0.7,
+          "from": 142261,
+          "toValue": 141430,
+          "delta": -0.6,
           "verdict": "noise"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 100021,
-          "toValue": 138283,
-          "delta": 38.3,
+          "from": 103273,
+          "toValue": 141430,
+          "delta": 36.9,
           "verdict": "real",
           "total": true
         }
@@ -50,36 +50,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 183,
-          "toValue": 177,
-          "delta": -3.2,
+          "from": 182,
+          "toValue": 168,
+          "delta": -8,
           "verdict": "small"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 177,
-          "toValue": 64,
-          "delta": -63.6,
+          "from": 168,
+          "toValue": 62,
+          "delta": -63,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 64,
-          "toValue": 59,
-          "delta": -8.3,
-          "verdict": "small"
+          "from": 62,
+          "toValue": 55,
+          "delta": -11.5,
+          "verdict": "real"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 183,
-          "toValue": 59,
-          "delta": -67.7,
+          "from": 182,
+          "toValue": 55,
+          "delta": -69.9,
           "verdict": "real",
           "total": true
         }
@@ -93,36 +93,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 63637,
-          "toValue": 66725,
-          "delta": 4.9,
-          "verdict": "small"
+          "from": 66660,
+          "toValue": 75332,
+          "delta": 13,
+          "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 66725,
-          "toValue": 116720,
-          "delta": 74.9,
+          "from": 75332,
+          "toValue": 121033,
+          "delta": 60.7,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 116720,
-          "toValue": 113639,
-          "delta": -2.6,
-          "verdict": "small"
+          "from": 121033,
+          "toValue": 121644,
+          "delta": 0.5,
+          "verdict": "noise"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 63637,
-          "toValue": 113639,
-          "delta": 78.6,
+          "from": 66660,
+          "toValue": 121644,
+          "delta": 82.5,
           "verdict": "real",
           "total": true
         }
@@ -133,26 +133,26 @@
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
           "from": 202,
-          "toValue": 199,
-          "delta": -1.2,
-          "verdict": "noise"
+          "toValue": 196,
+          "delta": -2.7,
+          "verdict": "small"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 199,
-          "toValue": 78,
-          "delta": -61,
+          "from": 196,
+          "toValue": 77,
+          "delta": -60.9,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 78,
-          "toValue": 66,
-          "delta": -14.6,
+          "from": 77,
+          "toValue": 65,
+          "delta": -14.8,
           "verdict": "real"
         },
         {
@@ -160,8 +160,8 @@
           "to": "D",
           "label": "the whole swap",
           "from": 202,
-          "toValue": 66,
-          "delta": -67.1,
+          "toValue": 65,
+          "delta": -67.6,
           "verdict": "real",
           "total": true
         }
@@ -175,36 +175,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 14906,
-          "toValue": 23106,
-          "delta": 55,
+          "from": 14923,
+          "toValue": 24564,
+          "delta": 64.6,
           "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 23106,
-          "toValue": 26702,
-          "delta": 15.6,
+          "from": 24564,
+          "toValue": 27168,
+          "delta": 10.6,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 26702,
-          "toValue": 25121,
-          "delta": -5.9,
+          "from": 27168,
+          "toValue": 26748,
+          "delta": -1.5,
           "verdict": "small"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 14906,
-          "toValue": 25121,
-          "delta": 68.5,
+          "from": 14923,
+          "toValue": 26748,
+          "delta": 79.2,
           "verdict": "real",
           "total": true
         }
@@ -214,36 +214,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 256,
-          "toValue": 250,
-          "delta": -2.6,
-          "verdict": "small"
+          "from": 271,
+          "toValue": 240,
+          "delta": -11.6,
+          "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 250,
-          "toValue": 114,
-          "delta": -54.2,
+          "from": 240,
+          "toValue": 129,
+          "delta": -46.4,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 114,
-          "toValue": 112,
-          "delta": -1.9,
-          "verdict": "noise"
+          "from": 129,
+          "toValue": 111,
+          "delta": -13.8,
+          "verdict": "real"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 256,
-          "toValue": 112,
-          "delta": -56.2,
+          "from": 271,
+          "toValue": 111,
+          "delta": -59.1,
           "verdict": "real",
           "total": true
         }
@@ -257,36 +257,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 16634,
-          "toValue": 29608,
-          "delta": 78,
+          "from": 18173,
+          "toValue": 30871,
+          "delta": 69.9,
           "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 29608,
-          "toValue": 34038,
-          "delta": 15,
+          "from": 30871,
+          "toValue": 34807,
+          "delta": 12.7,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 34038,
-          "toValue": 32390,
-          "delta": -4.8,
-          "verdict": "small"
+          "from": 34807,
+          "toValue": 34538,
+          "delta": -0.8,
+          "verdict": "noise"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 16634,
-          "toValue": 32390,
-          "delta": 94.7,
+          "from": 18173,
+          "toValue": 34538,
+          "delta": 90,
           "verdict": "real",
           "total": true
         }
@@ -296,36 +296,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 282,
-          "toValue": 271,
-          "delta": -4,
+          "from": 289,
+          "toValue": 272,
+          "delta": -6.1,
           "verdict": "small"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 271,
-          "toValue": 133,
-          "delta": -50.9,
+          "from": 272,
+          "toValue": 153,
+          "delta": -43.8,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 133,
-          "toValue": 119,
-          "delta": -10.2,
+          "from": 153,
+          "toValue": 129,
+          "delta": -15.8,
           "verdict": "real"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 282,
-          "toValue": 119,
-          "delta": -57.7,
+          "from": 289,
+          "toValue": 129,
+          "delta": -55.5,
           "verdict": "real",
           "total": true
         }
@@ -339,36 +339,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 12243,
-          "toValue": 21641,
-          "delta": 76.8,
+          "from": 12882,
+          "toValue": 22983,
+          "delta": 78.4,
           "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 21641,
-          "toValue": 24795,
-          "delta": 14.6,
-          "verdict": "real"
+          "from": 22983,
+          "toValue": 25212,
+          "delta": 9.7,
+          "verdict": "small"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 24795,
-          "toValue": 24094,
-          "delta": -2.8,
+          "from": 25212,
+          "toValue": 25690,
+          "delta": 1.9,
           "verdict": "small"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 12243,
-          "toValue": 24094,
-          "delta": 96.8,
+          "from": 12882,
+          "toValue": 25690,
+          "delta": 99.4,
           "verdict": "real",
           "total": true
         }
@@ -378,36 +378,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 233,
-          "toValue": 279,
-          "delta": 19.8,
+          "from": 255,
+          "toValue": 311,
+          "delta": 22,
           "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 279,
-          "toValue": 163,
-          "delta": -41.6,
+          "from": 311,
+          "toValue": 174,
+          "delta": -44,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 163,
-          "toValue": 125,
-          "delta": -23.4,
+          "from": 174,
+          "toValue": 145,
+          "delta": -16.6,
           "verdict": "real"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 233,
-          "toValue": 125,
-          "delta": -46.3,
+          "from": 255,
+          "toValue": 145,
+          "delta": -43,
           "verdict": "real",
           "total": true
         }
@@ -415,42 +415,42 @@
     },
     {
       "id": "order",
-      "label": "POST /orders — validated insert, fresh table",
+      "label": "POST /orders — validated insert, vacuumed reset",
       "steps": [
         {
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 12287,
-          "toValue": 24251,
-          "delta": 97.4,
+          "from": 14419,
+          "toValue": 26174,
+          "delta": 81.5,
           "verdict": "real"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 24251,
-          "toValue": 27327,
-          "delta": 12.7,
-          "verdict": "real"
+          "from": 26174,
+          "toValue": 28125,
+          "delta": 7.5,
+          "verdict": "small"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 27327,
-          "toValue": 29094,
-          "delta": 6.5,
-          "verdict": "small"
+          "from": 28125,
+          "toValue": 28017,
+          "delta": -0.4,
+          "verdict": "noise"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 12287,
-          "toValue": 29094,
-          "delta": 136.8,
+          "from": 14419,
+          "toValue": 28017,
+          "delta": 94.3,
           "verdict": "real",
           "total": true
         }
@@ -460,36 +460,36 @@
           "id": "A→B",
           "to": "B",
           "label": "runtime: Node → Bun (+ native SQL driver)",
-          "from": 285,
-          "toValue": 212,
-          "delta": -25.4,
-          "verdict": "real"
+          "from": 300,
+          "toValue": 327,
+          "delta": 9.2,
+          "verdict": "small"
         },
         {
           "id": "B→C",
           "to": "C",
           "label": "framework: Nest + Fastify → Elysia 2",
-          "from": 212,
-          "toValue": 120,
-          "delta": -43.7,
+          "from": 327,
+          "toValue": 178,
+          "delta": -45.5,
           "verdict": "real"
         },
         {
           "id": "C→D",
           "to": "D",
           "label": "build: JIT → AOT",
-          "from": 120,
-          "toValue": 103,
-          "delta": -14,
+          "from": 178,
+          "toValue": 155,
+          "delta": -13,
           "verdict": "real"
         },
         {
           "id": "A→D",
           "to": "D",
           "label": "the whole swap",
-          "from": 285,
-          "toValue": 103,
-          "delta": -63.9,
+          "from": 300,
+          "toValue": 155,
+          "delta": -48.2,
           "verdict": "real",
           "total": true
         }

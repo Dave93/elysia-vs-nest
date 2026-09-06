@@ -6,9 +6,9 @@
   },
   "headline": {
     "config": "A",
-    "rps": 31180,
-    "non2xx": 910605,
-    "pct": 99.47
+    "rps": 49393,
+    "non2xx": 1419202,
+    "pct": 99.68
   },
   "rows": [
     {
