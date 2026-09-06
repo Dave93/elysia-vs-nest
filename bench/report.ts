@@ -1,6 +1,6 @@
 // bench/report.ts — results/*.json → summary.md, results.html (local, inline SVG), facts.md. Run: bun bench/report.ts
 import { existsSync } from "node:fs";
-import { median } from "./lib";
+import { median, mean } from "./lib";
 
 const read = async (p: string) => (existsSync(p) ? JSON.parse(await Bun.file(p).text()) : null);
 const R = await read("results/results.json");
@@ -41,7 +41,7 @@ const run = (cfg: string, c: string, conc: number, src = R) => {
 const INVALID = 1;
 // /orders at c=100 comes from the fresh-table pass when available (main-run numbers depend on run order).
 const runF = (cfg: string, c: string, conc: number, src = R) => {
-  if (c === "order" && conc === 100 && FAIR?.configs?.[cfg] && src === R) {
+  if (process.env.ORDERS_FROM_FAIR && c === "order" && conc === 100 && FAIR?.configs?.[cfg] && src === R) {
     const m = FAIR.configs[cfg].median;
     return { ...m, p50: NaN, p90: NaN, peakRss: NaN, rpsPerCore: m.meanCpu ? m.rps / (m.meanCpu / 100) : 0, rpsPerMB: m.meanRss ? m.rps / m.meanRss : 0, errPct: 0, fair: true };
   }
@@ -66,7 +66,7 @@ if (NOISE) {
 
 md.push(`## Throughput, latency, resources — per route\n`);
 for (const c of CASES) {
-  md.push(`### ${CASE_DESC[c] ?? c}${c === "order" && FAIR ? " — main-run rows depend on run order (table bloat); see the fresh-table section" : ""}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx (rate) | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
+  md.push(`### ${CASE_DESC[c] ?? c}${c === "order" ? " — orders table VACUUM FULL + reset before each config" : ""}\n\n| Config | c | rps | p50 ms | p90 ms | p99 ms | non-2xx (rate) | mean RSS MB | peak RSS MB | mean CPU % | rps/core | rps/MB |\n|---|---|---|---|---|---|---|---|---|---|---|---|`);
   for (const conc of CONCS) for (const cfg of ORDER) {
     const m = run(cfg, c, conc); if (!m) { md.push(`| ${cfg} | ${conc} | failed | | | | | | | | | |`); continue; }
     md.push(`| ${cfg} | ${conc} | ${m.errPct > INVALID ? "~~" + f0(m.rps) + "~~ invalid" : f0(m.rps)} | ${f2(m.p50)} | ${f2(m.p90)} | ${f2(m.p99)} | ${f0(m.non2xx)} (${f2(m.errPct)}%) | ${f0(m.meanRss)} | ${f0(m.peakRss)} | ${f0(m.meanCpu)} | ${f0(m.rpsPerCore)} | ${f0(m.rpsPerMB)} |`);
@@ -95,7 +95,7 @@ for (const conc of [100, 500]) {
 
 // ---------- /orders with a fresh table ----------
 if (FAIR) {
-  md.push(`## POST /orders with a freshly vacuumed table, c=100\n\nEach config got \`VACUUM (FULL, ANALYZE) orders\` and a 200,000-row table before its 3 × 30 s. This replaces the main-run \`/orders\` numbers, which depended on which config ran first.\n\n| Config | rps | p99 ms | mean RSS MB | mean CPU % | rps/core | dead tuples before → after | non-2xx |\n|---|---|---|---|---|---|---|---|`);
+  md.push(`## POST /orders cross-check: separate pass, fresh table per config, c=100\n\nSame reset as the main run (\`VACUUM (FULL, ANALYZE)\` + 200,000 rows), run after the main pass as an independent repeat. Differences from the main-run \`/orders\` row measure Postgres state drift, not the frameworks.\n\n| Config | rps | p99 ms | mean RSS MB | mean CPU % | rps/core | dead tuples before → after | non-2xx |\n|---|---|---|---|---|---|---|---|`);
   facts.push(`\n## /orders, fresh table, c=100`);
   for (const cfg of ORDER) {
     const v = FAIR.configs[cfg]; if (!v) continue; const m = v.median;
@@ -112,6 +112,25 @@ if (DRIFT) {
   for (const [k, v] of Object.entries<any>(DRIFT.cases)) {
     md.push(`| ${k} | ${f0(v.morningRps)} | ${f0(v.median)} | ${sign(v.deltaPct)} | ${verdict(v.deltaPct)} | ${f0(v.otherCpu)}% |`);
     facts.push(`- A ${k} c=100: morning ${f0(v.morningRps)} rps, afternoon ${f0(v.median)} rps, ${sign(v.deltaPct)} [${verdict(v.deltaPct)}] (source: results/drift.json → cases.${k})`);
+  }
+  md.push("");
+}
+
+// ---------- C/D interleave ----------
+const INTER = await read("results/interleave.json");
+if (INTER) {
+  const names = Object.keys(INTER.rounds[0].cases);
+  md.push(`## AOT check: ${INTER.seq.join(" → ")} back to back, c=${INTER.concurrency}\n\nSame process order alternated to remove any time-of-day effect. 3 × 30 s per cell.\n\n| Round | Config | ${names.map((n) => `${n} rps`).join(" | ")} | foreign CPU |\n|---|---|${names.map(() => "---").join("|")}|---|`);
+  facts.push(`\n## AOT interleave (${INTER.seq.join("→")}, c=${INTER.concurrency})`);
+  for (const r of INTER.rounds) {
+    md.push(`| ${r.pos + 1} | ${r.config} | ${names.map((n) => f0(r.cases[n].rps)).join(" | ")} | ${f0(mean(names.map((n) => r.cases[n].otherCpu)))}% |`);
+    facts.push(`- round ${r.pos + 1} ${r.config}: ${names.map((n) => `${n} ${f0(r.cases[n].rps)} rps`).join(", ")} (source: results/interleave.json → rounds[${r.pos}])`);
+  }
+  for (const n of names) {
+    const cs = INTER.rounds.filter((r: any) => r.config === "C").map((r: any) => r.cases[n].rps), ds = INTER.rounds.filter((r: any) => r.config === "D").map((r: any) => r.cases[n].rps);
+    const d = pct(mean(cs), mean(ds));
+    md.push(`\n${n}: C mean ${f0(mean(cs))}, D mean ${f0(mean(ds))}, Δ ${sign(d)} → ${verdict(d)}`);
+    facts.push(`- ${n}: C mean ${f0(mean(cs))} rps vs D mean ${f0(mean(ds))} rps, Δ ${sign(d)} [${verdict(d)}]`);
   }
   md.push("");
 }
@@ -209,11 +228,10 @@ const legend = `<div class="legend">${ORDER.map((c, i) => `<span><i style="backg
 const charts: string[] = [];
 const valid = (m: any) => (m && m.errPct <= INVALID ? m.rps : NaN);
 for (const c of CASES) {
-  if (c === "order" && FAIR) charts.push(barChart(`${CASE_DESC[c]} — requests/s, fresh table (VACUUM FULL before each config)`, "req/s", [{ label: "c=100, fresh table", values: ORDER.map((cfg) => FAIR.configs[cfg]?.median.rps ?? NaN) }], ORDER.map((c) => LABEL[c])));
-  else charts.push(barChart(`${CASE_DESC[c] ?? c} — requests/s${c === "cpu" ? " (n/a = >1% connection errors)" : ""}`, "req/s", CONCS.map((conc) => ({ label: `c=${conc}`, values: ORDER.map((cfg) => valid(run(cfg, c, conc))) })), ORDER.map((c) => LABEL[c])));
+  charts.push(barChart(`${CASE_DESC[c] ?? c} — requests/s${c === "cpu" ? " (n/a = >1% connection errors)" : ""}`, "req/s", CONCS.map((conc) => ({ label: `c=${conc}`, values: ORDER.map((cfg) => valid(run(cfg, c, conc))) })), ORDER.map((c) => LABEL[c])));
 }
 charts.push(barChart("Mean RSS under load, c=100 — MB", "MB", CASES.map((c) => ({ label: c, values: ORDER.map((cfg) => runF(cfg, c, 100)?.meanRss ?? NaN) })), ORDER.map((c) => LABEL[c])));
-charts.push(barChart("Requests per core, c=100 (orders from the fresh-table pass)", "req/s per core", CASES.filter((c) => c !== "cpu").map((c) => ({ label: c, values: ORDER.map((cfg) => runF(cfg, c, 100)?.rpsPerCore ?? NaN) })), ORDER.map((c) => LABEL[c])));
+charts.push(barChart("Requests per core, c=100", "req/s per core", CASES.filter((c) => c !== "cpu").map((c) => ({ label: c, values: ORDER.map((cfg) => runF(cfg, c, 100)?.rpsPerCore ?? NaN) })), ORDER.map((c) => LABEL[c])));
 charts.push(barChart("Idle RSS — MB", "MB", [{ label: "idle", values: ORDER.map((cfg) => R.idleRss[cfg]) }], ORDER.map((c) => LABEL[c])));
 if (BOOT) charts.push(barChart(`Boot to healthy, median of ${BOOT.repeats} — ms`, "ms", [{ label: "boot", values: ORDER.map((cfg) => BOOT[cfg]?.bootMedian ?? 0) }], ORDER.map((c) => LABEL[c])));
 

@@ -3,7 +3,7 @@ import { mean } from "./lib";
 
 const R = JSON.parse(await Bun.file("results/results.json").text());
 const P = JSON.parse(await Bun.file("results/pricing-snapshot.json").text());
-const FAIR = (await Bun.file("results/order-fair.json").exists()) ? JSON.parse(await Bun.file("results/order-fair.json").text()) : null;
+const FAIR = process.env.ORDERS_FROM_FAIR && (await Bun.file("results/order-fair.json").exists()) ? JSON.parse(await Bun.file("results/order-fair.json").text()) : null;
 const LOADS = [5000, 20000, 50000, 100000];
 const HEADROOM = 0.5;           // run cores at 50 %
 const RAM_MULT = 1.5;           // provision 1.5× peak RSS per process

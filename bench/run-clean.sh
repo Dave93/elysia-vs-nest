@@ -3,7 +3,7 @@
 set -x
 echo "START $(date)"
 export CONTENTION=${CONTENTION:-350} MAX_RETRY=200
-bun bench/noise.ts && echo "NOISE DONE"
+[ -n "$SKIP_NOISE" ] || (bun bench/noise.ts && echo "NOISE DONE")
 OUT=results/results-clean.json bun bench/bench.ts && echo "MAIN DONE"
 bun bench/order-fair.ts && echo "ORDER-FAIR DONE"
 SEQ=C,D,C,D CASES=me,health,user CONC=100 bun bench/interleave.ts && echo "INTERLEAVE DONE"
