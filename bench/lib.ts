@@ -2,7 +2,7 @@
 import { SignJWT } from "jose";
 
 export interface ConfigSpec {
-  id: "A" | "B" | "C" | "D" | "B-pgjs" | "A-typebox";
+  id: "A" | "B" | "C" | "D" | "E" | "B-pgjs" | "A-typebox";
   label: string;
   cmd: string[];
   env: Record<string, string>;
@@ -16,6 +16,7 @@ export const CONFIGS: ConfigSpec[] = [
   { id: "B", label: "Nest 12 + Fastify / Bun 1.4", cmd: ["bun", "apps/nest-api/dist/main.js"], env: { ...BASE_ENV, DB_DRIVER: "bunsql" } },
   { id: "C", label: "Elysia 2 / Bun 1.4", cmd: ["bun", "apps/elysia-api/dist/index.js"], env: { ...BASE_ENV, DB_DRIVER: "bunsql" } },
   { id: "D", label: "Elysia 2 + AOT / Bun 1.4", cmd: ["bun", "apps/elysia-api/dist-aot/index.js"], env: { ...BASE_ENV, DB_DRIVER: "bunsql" } },
+  { id: "E", label: "dunx 3.4 / Bun 1.4", cmd: ["bun", "apps/dunx-api/dist/index.js"], env: { ...BASE_ENV, DB_DRIVER: "bunsql" } },
   { id: "B-pgjs", label: "Nest 12 + Fastify / Bun 1.4, postgres.js", cmd: ["bun", "apps/nest-api/dist/main.js"], env: { ...BASE_ENV, DB_DRIVER: "postgresjs" }, sensitivity: true },
   { id: "A-typebox", label: "Nest 12 + Fastify / Node 26, TypeBox validator", cmd: ["node", "apps/nest-api/dist/main.js"], env: { ...BASE_ENV, DB_DRIVER: "postgresjs", VALIDATOR: "typebox" }, sensitivity: true },
 ];
@@ -97,6 +98,7 @@ export async function collectEnv() {
     postgres: await sh(["psql", "--version"]),
     bombardier: await sh(["bombardier", "--version"]),
     elysia: await pkg("apps/elysia-api/node_modules/elysia/package.json"),
+    dunx: await pkg("apps/dunx-api/node_modules/@dunx/http/package.json"),
     nestCore: await pkg("apps/nest-api/node_modules/@nestjs/core/package.json"),
     fastify: await pkg("apps/nest-api/node_modules/fastify/package.json"),
     drizzle: await pkg("apps/elysia-api/node_modules/drizzle-orm/package.json"),

@@ -1,0 +1,24 @@
+{
+  "name": "dunx-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build.ts",
+    "start": "NODE_ENV=production bun dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dunx/core": "3.4.1",
+    "@dunx/http": "3.4.1",
+    "@dunx/infra": "3.4.1",
+    "drizzle-orm": "^0.45.2",
+    "jose": "^6.2.11",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@dunx/transform": "3.4.1",
+    "@types/bun": "^1.4.1",
+    "typescript": "^5.9.0"
+  }
+}
