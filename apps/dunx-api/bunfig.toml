@@ -1,0 +1,3 @@
+# `bun run dev` only. The built dist/index.js needs no preload: build.ts runs the
+# same plugin, so the constructor-dependency records are already in the bundle.
+preload = ["@dunx/transform/preload"]

@@ -19,6 +19,16 @@ Reading the steps: A→B changes the runtime and, with it, the Postgres client (
 
 Two sensitivity runs split the confounders inside those steps. B-pgjs runs the Nest build on Bun with postgres.js instead of Bun SQL, which separates the runtime's own gain from the driver's. A-typebox runs Nest on Node with a compiled TypeBox validator behind Nest 12's Standard Schema pipe instead of Zod 4, which separates the validator's cost from the framework's on `POST /echo`.
 
+## Configuration E, submitted for a rerun
+
+| Id | Framework | Runtime | Build | DB driver |
+|----|-----------|---------|-------|-----------|
+| E | dunx 3.4 | Bun 1.4 | `Bun.build` with `depsPlugin` from `@dunx/transform`, `bun dist/index.js` | Drizzle + Bun SQL |
+
+Added after the 2026-09-06 pass, so it appears in no file under `results/`. `bench/parity.ts` covers it and passes; `bench/bench.ts` and `bench/boot.ts` read it from `CONFIGS`, and `CONFIGS=A,B,C,D` reproduces the published set exactly. `bench/noise.ts` still measures the floor on C alone.
+
+Same fairness rules: `NODE_ENV=production`, pool size 10, one process, request logging off. dunx installs one structured entry per request by default and `requestLogging: false` removes it, which is the counterpart of the Nest and Fastify loggers being off in A and B. `GET /me` verifies with `jose` HS256 and `GET /cpu` runs the same `node:crypto` `createHash` loop as the other two apps, both copied rather than reimplemented. Body validation is Zod 4, as in A and B, not TypeBox. `@dunx/infra/db` has no postgres.js driver, so `DB_DRIVER` is not read: E is the Bun SQL column only, which places it beside B, C and D rather than A.
+
 ## The workload
 
 Seven routes, identical in both apps, against one Postgres database seeded with a fixed PRNG (50,000 users, 200,000 orders):
